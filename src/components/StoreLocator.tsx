@@ -61,6 +61,13 @@ export default function StoreLocator() {
 
   const activeStore = stores.find((s) => s.id === selectedStore) ?? stores[0];
 
+  const handleCardKeyDown = (e: React.KeyboardEvent, id: string) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setSelectedStore(id);
+    }
+  };
+
   return (
     <section id="locations" className="py-24 bg-white dark:bg-zinc-950 border-t border-zinc-200/80 dark:border-zinc-800 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -117,7 +124,7 @@ export default function StoreLocator() {
                   left: `${store.pinCoordinates.x}%`,
                   top: `${store.pinCoordinates.y}%`,
                 }}
-                className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer z-20 focus:outline-none`}
+                className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center group cursor-pointer z-20 focus-visible:ring-2 focus-visible:ring-amber-500 rounded-full`}
                 aria-label={`Select ${store.name}`}
               >
                 <div
@@ -169,12 +176,16 @@ export default function StoreLocator() {
             return (
               <motion.div
                 key={store.id}
+                tabIndex={0}
+                role="button"
+                aria-pressed={isSelected}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
                 onClick={() => setSelectedStore(store.id)}
-                className={`cursor-pointer rounded-2xl p-5 sm:p-6 transition-all duration-200 border ${
+                onKeyDown={(e) => handleCardKeyDown(e, store.id)}
+                className={`cursor-pointer rounded-2xl p-5 sm:p-6 transition-all duration-200 border focus-visible:ring-2 focus-visible:ring-amber-500 ${
                   isSelected
                     ? "bg-white dark:bg-zinc-900 border-amber-500 shadow-md ring-1 ring-amber-500/30"
                     : "bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200/80 dark:border-zinc-800/80 hover:border-zinc-300 dark:hover:border-zinc-700"
@@ -229,7 +240,7 @@ export default function StoreLocator() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-zinc-900 hover:text-amber-600 dark:text-zinc-100 dark:hover:text-amber-400 transition-colors"
+                  className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-zinc-900 hover:text-amber-600 dark:text-zinc-100 dark:hover:text-amber-400 transition-colors focus-visible:ring-2 focus-visible:ring-amber-500"
                 >
                   <Navigation className="w-3 h-3" />
                   Get Google Maps Route

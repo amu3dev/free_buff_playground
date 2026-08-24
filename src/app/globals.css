@@ -4,9 +4,10 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
+  --font-serif: var(--font-playfair-display), Georgia, serif;
   --font-mono: var(--font-geist-mono);
 
-  /* Modern Editorial Espresso & Slate Palette */
+  /* Modern Editorial Slate & Zinc Neutrals */
   --color-coffee-50: #fafaf9;
   --color-coffee-100: #f4f4f3;
   --color-coffee-200: #e4e4e2;
@@ -26,7 +27,7 @@
   --color-cream-300: #e8e8e4;
   --color-cream-400: #d7d7d2;
 
-  /* Golden Warm Amber & Caramel Accents */
+  /* Golden Warm Amber & Honey Caramel Accents */
   --color-amber-50: #fffbeb;
   --color-amber-100: #fef3c7;
   --color-amber-200: #fde68a;
@@ -60,6 +61,12 @@ body {
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+}
+
+/* Accessible focus ring styling */
+*:focus-visible {
+  outline: 2px solid #f59e0b;
+  outline-offset: 2px;
 }
 
 /* Sleek minimalist scrollbar */
