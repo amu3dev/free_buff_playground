@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ☕ Brew & Bean — Artisan Coffee & Roastery
 
-## Getting Started
+> A modern, boutique coffee shop web application built with **Next.js 16 (Turbopack)**, **React 19**, **Tailwind CSS v4**, and **Framer Motion**. Designed with high-contrast editorial aesthetics, warm amber accents, and an interactive customer ordering journey.
 
-First, run the development server:
+---
+
+## ✨ Features & Highlights
+
+- **Interactive Barista Lab (Custom Drink Builder)**:
+  - Select coffee foundations (*Latte, Cappuccino, Americano, Cold Brew*).
+  - Customize cup volume (*8oz, 12oz, 16oz*), dairy & plant milks (*Oat, Almond, Soy, Coconut*), and artisanal syrups.
+  - **Live Sensory Profile Visualizer**: Dynamic gauges estimating *Espresso Intensity*, *Sweetness Level*, and *Microfoam Creaminess* in real time.
+- **Artisan Menu**:
+  - Categorized catalog for *Espresso & Milk*, *Cold Brew & Nitro*, *Signature Crafts*, and *Artisan Bakery*.
+  - Micro-animations with instant `"Added ✓"` tactile feedback.
+- **Cart & Slide-Over Checkout**:
+  - Persistent cart state across page reloads via `localStorage`.
+  - **1-Click Bakery Pairings**: In-cart cross-sell suggestions (Croissants, Cinnamon Rolls, Biscotti).
+  - **In-Cart Loyalty Milestone Tracker**: Dynamic progress indicator towards the next free reward.
+  - Multi-step checkout modal: customer details, pickup roastery location, estimated prep time (8–12 min), and generated order confirmation.
+- **Brew Club Loyalty Rewards**:
+  - Dynamic member tier progression (*Bean, Brew, Barista, Legend*).
+  - 1-click reward redemption that automatically applies discount line items to the cart.
+- **Neighborhood Roastery Locator**:
+  - Stylized interactive vector map with clickable location pins and direct Google Maps route links.
+- **Boutique Editorial Aesthetic**:
+  - High-contrast slate & obsidian neutrals, warm linen background `#f7f7f5`, and golden warm amber spot accents.
+  - Native Light / Dark mode toggle powered by `useSyncExternalStore` with zero hydration mismatch.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+| :--- | :--- |
+| **Framework** | [Next.js 16.3.2](https://nextjs.org/) (App Router, Turbopack) |
+| **Library** | [React 19.2.8](https://react.dev/) |
+| **Styling** | [Tailwind CSS v4](https://tailwindcss.com/) with `@theme inline` design tokens |
+| **Animations** | [Framer Motion 13](https://www.framer.com/motion/) |
+| **Icons** | [Lucide React](https://lucide.dev/) |
+| **Type Safety** | [TypeScript 5](https://www.typescriptlang.org/) |
+| **Linting** | [ESLint 9](https://eslint.org/) (React 19 Rules Compliant) |
+
+---
+
+## 📁 Project Structure
+
+```
+free_buff_playground/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx         # Root layout with Geist font, ThemeProvider, CartProvider, Navbar, Drawer & Footer
+│   │   ├── page.tsx           # Aggregated landing page
+│   │   └── globals.css        # Tailwind v4 theme palette, tactile linen tones & custom scrollbars
+│   ├── components/
+│   │   ├── Navbar.tsx         # Fixed glassmorphism navbar with theme switcher and cart badge
+│   │   ├── Hero.tsx           # Hero showcase with Morning Ritual breakfast pairing bundle
+│   │   ├── Menu.tsx           # Categorized artisan menu with tactile add micro-animations
+│   │   ├── CustomDrinkBuilder.tsx # Custom drink creator with live sensory profile metrics
+│   │   ├── LoyaltyRewards.tsx # Member tier progress card and redeemable perks
+│   │   ├── StoreLocator.tsx   # Interactive map visual with roastery locations
+│   │   ├── Cart.tsx           # Slide-over cart drawer with in-cart pairings and checkout flow
+│   │   └── Footer.tsx         # Brand footer with navigation and roastery details
+│   └── lib/
+│       ├── cart-context.tsx   # React Context & Hook (useCart) with localStorage persistence & rewards
+│       └── theme-context.tsx  # Hydration-safe dark/light mode store using useSyncExternalStore
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+ (Node.js 20+ recommended)
+- npm, yarn, pnpm, or bun
+
+### 1. Installation
+
+```bash
+git clone https://github.com/amu3dev/free_buff_playground.git
+cd free_buff_playground
+npm install
+```
+
+### 2. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to explore the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Build for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+### 4. Code Quality & Type Check
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint      # 0 errors, 0 warnings
+npx tsc --noEmit  # Full TypeScript type check
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📄 License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT © [Brew & Bean](https://github.com/amu3dev/free_buff_playground)
