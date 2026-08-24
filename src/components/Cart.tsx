@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -45,12 +45,18 @@ export default function CartDrawer() {
   const [customerName, setCustomerName] = useState("");
   const [pickupStore, setPickupStore] = useState("store-1");
   const [orderNumber, setOrderNumber] = useState("");
+  const handleClose = useCallback(() => {
+    closeCart();
+    setTimeout(() => {
+      setCheckoutStep("cart");
+    }, 300);
+  }, [closeCart]);
 
   // Keyboard Escape listener for drawer accessibility
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
-        closeCart();
+        handleClose();
       }
     };
     if (isOpen) {
@@ -59,7 +65,7 @@ export default function CartDrawer() {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, closeCart]);
+  }, [isOpen, handleClose]);
 
   const handleStartCheckout = () => {
     setCheckoutStep("checkout");
@@ -71,13 +77,6 @@ export default function CartDrawer() {
     setOrderNumber(generatedOrder);
     setCheckoutStep("success");
     clearCart();
-  };
-
-  const handleClose = () => {
-    closeCart();
-    setTimeout(() => {
-      setCheckoutStep("cart");
-    }, 300);
   };
 
   const nextMilestoneTarget = 15;

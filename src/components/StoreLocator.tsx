@@ -61,13 +61,6 @@ export default function StoreLocator() {
 
   const activeStore = stores.find((s) => s.id === selectedStore) ?? stores[0];
 
-  const handleCardKeyDown = (e: React.KeyboardEvent, id: string) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      setSelectedStore(id);
-    }
-  };
-
   return (
     <section id="locations" className="py-24 bg-white dark:bg-zinc-950 border-t border-zinc-200/80 dark:border-zinc-800 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -176,16 +169,12 @@ export default function StoreLocator() {
             return (
               <motion.div
                 key={store.id}
-                tabIndex={0}
-                role="button"
-                aria-pressed={isSelected}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
                 onClick={() => setSelectedStore(store.id)}
-                onKeyDown={(e) => handleCardKeyDown(e, store.id)}
-                className={`cursor-pointer rounded-2xl p-5 sm:p-6 transition-all duration-200 border focus-visible:ring-2 focus-visible:ring-amber-500 ${
+                className={`cursor-pointer rounded-2xl p-5 sm:p-6 transition-all duration-200 border ${
                   isSelected
                     ? "bg-white dark:bg-zinc-900 border-amber-500 shadow-md ring-1 ring-amber-500/30"
                     : "bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200/80 dark:border-zinc-800/80 hover:border-zinc-300 dark:hover:border-zinc-700"
@@ -195,10 +184,20 @@ export default function StoreLocator() {
                   <span className="text-[10px] font-mono font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider">
                     {store.neighborhood}
                   </span>
-                  {isSelected && (
+                  {isSelected ? (
                     <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 font-semibold">
-                      Selected
+                      Active
                     </span>
+                  ) : (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedStore(store.id);
+                      }}
+                      className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 transition-colors font-medium cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-500"
+                    >
+                      Select
+                    </button>
                   )}
                 </div>
 
