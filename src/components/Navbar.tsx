@@ -2,21 +2,23 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ShoppingCart, Sun, Moon, Coffee } from "lucide-react";
+import { Menu, X, ShoppingCart, Sun, Moon, Coffee, Languages } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { useTheme } from "@/lib/theme-context";
-
-const navLinks = [
-  { label: "Menu", href: "#menu" },
-  { label: "Barista Lab", href: "#customize" },
-  { label: "Rewards", href: "#rewards" },
-  { label: "Locations", href: "#locations" },
-];
+import { useI18n } from "@/lib/i18n";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { itemCount, openCart } = useCart();
   const { dark, toggle } = useTheme();
+  const { t, tf, lang, setLang } = useI18n();
+
+  const navLinks = [
+    { label: t("nav.menu"), href: "#menu" },
+    { label: t("nav.lab"), href: "#customize" },
+    { label: t("nav.rewards"), href: "#rewards" },
+    { label: t("nav.locations"), href: "#locations" },
+  ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-200/70 dark:border-zinc-800/80 transition-colors duration-200">
@@ -31,11 +33,11 @@ export default function Navbar() {
               <Coffee className="w-5 h-5 text-amber-400 dark:text-zinc-900" />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-serif font-bold tracking-tight leading-none">
+              <span className={`text-lg font-serif font-bold tracking-tight leading-none ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
                 Brew &amp; Bean
               </span>
-              <span className="text-[10px] uppercase font-mono tracking-widest text-zinc-400 dark:text-zinc-500 mt-0.5">
-                Roastery &amp; Cafe
+              <span className={`text-[10px] font-mono tracking-widest text-zinc-400 dark:text-zinc-500 mt-0.5 ${lang === "ar" ? "normal-case" : "uppercase"}`}>
+                {t("nav.brandSub")}
               </span>
             </div>
           </a>
@@ -44,7 +46,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <a
-                key={link.label}
+                key={link.href}
                 href={link.href}
                 className="text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white font-medium text-sm transition-colors py-1 relative after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-amber-500 after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
               >
@@ -55,11 +57,24 @@ export default function Navbar() {
 
           {/* Right Action Icons */}
           <div className="flex items-center gap-2">
+            {/* Language Switcher */}
+            <button
+              onClick={() => setLang(lang === "en" ? "ar" : "en")}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-500"
+              aria-label={lang === "en" ? "التبديل إلى العربية" : "Switch to English"}
+              title={lang === "en" ? "العربية" : "English"}
+            >
+              <Languages className="w-4 h-4 text-amber-500" />
+              <span className={lang === "ar" ? "font-[family-name:var(--font-cairo)]" : ""}>
+                {lang === "en" ? "عربي" : "EN"}
+              </span>
+            </button>
+
             {/* Dark Mode Switcher */}
             <button
               onClick={toggle}
               className="p-2.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-zinc-600 dark:text-zinc-300 focus-visible:ring-2 focus-visible:ring-amber-500 cursor-pointer"
-              aria-label="Toggle dark mode"
+              aria-label={t("nav.darkMode")}
             >
               {dark ? (
                 <Sun className="w-4.5 h-4.5 text-amber-400" />
@@ -72,7 +87,7 @@ export default function Navbar() {
             <button
               onClick={openCart}
               className="relative p-2.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-zinc-700 dark:text-zinc-200 focus-visible:ring-2 focus-visible:ring-amber-500 cursor-pointer"
-              aria-label={`Open shopping cart with ${itemCount} items`}
+              aria-label={tf("nav.cart", { count: itemCount })}
             >
               <ShoppingCart className="w-4.5 h-4.5" />
               {itemCount > 0 && (
@@ -91,7 +106,7 @@ export default function Navbar() {
             <button
               onClick={() => setOpen(!open)}
               className="md:hidden p-2.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-zinc-700 dark:text-zinc-300 focus-visible:ring-2 focus-visible:ring-amber-500"
-              aria-label="Toggle mobile menu"
+              aria-label={t("nav.mobileMenu")}
               aria-expanded={open}
             >
               {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -113,7 +128,7 @@ export default function Navbar() {
             <div className="px-4 py-3 flex flex-col gap-1">
               {navLinks.map((link) => (
                 <a
-                  key={link.label}
+                  key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
                   className="text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white py-2 px-3 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 font-medium text-sm transition-colors"

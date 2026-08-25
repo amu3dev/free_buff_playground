@@ -17,11 +17,12 @@ import {
   Gift,
 } from "lucide-react";
 import { useCart, CartItem, AppliedReward } from "@/lib/cart-context";
+import { useI18n } from "@/lib/i18n";
 
 const quickPairings = [
-  { id: "pasty-1", name: "Butter Croissant", price: 3.5, emoji: "🥐" },
-  { id: "pasty-3", name: "Cinnamon Roll", price: 4.0, emoji: "🍥" },
-  { id: "pasty-4", name: "Almond Biscotti", price: 2.5, emoji: "🍪" },
+  { id: "pasty-1", price: 3.5, emoji: "🥐" },
+  { id: "pasty-3", price: 4.0, emoji: "🍥" },
+  { id: "pasty-4", price: 2.5, emoji: "🍪" },
 ];
 
 export default function CartDrawer() {
@@ -40,6 +41,7 @@ export default function CartDrawer() {
     appliedReward,
     removeReward,
   } = useCart();
+  const { t, tf, lang } = useI18n();
 
   const [checkoutStep, setCheckoutStep] = useState<"cart" | "checkout" | "success">("cart");
   const [customerName, setCustomerName] = useState("");
@@ -97,16 +99,20 @@ export default function CartDrawer() {
             aria-hidden="true"
           />
 
-          {/* Dialog Drawer Panel */}
+          {/* Dialog Drawer Panel — slides from the inline-end side for both LTR & RTL */}
           <motion.div
             role="dialog"
             aria-modal="true"
             aria-labelledby="cart-drawer-heading"
-            initial={{ x: "100%" }}
+            initial={{ x: lang === "ar" ? "-100%" : "100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }}
+            exit={{ x: lang === "ar" ? "-100%" : "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 240 }}
-            className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white dark:bg-zinc-950 z-50 flex flex-col shadow-2xl border-l border-zinc-200 dark:border-zinc-800"
+            className={`fixed top-0 bottom-0 w-full max-w-md bg-white dark:bg-zinc-950 z-50 flex flex-col shadow-2xl ${
+              lang === "ar"
+                ? "left-0 border-r border-zinc-200 dark:border-zinc-800"
+                : "right-0 border-l border-zinc-200 dark:border-zinc-800"
+            }`}
           >
             {/* Header */}
             <div className="flex items-center justify-between p-5 border-b border-zinc-200 dark:border-zinc-800">
@@ -117,17 +123,17 @@ export default function CartDrawer() {
                 <div>
                   <h2
                     id="cart-drawer-heading"
-                    className="text-base font-serif font-bold text-zinc-900 dark:text-white"
+                    className={`text-base font-serif font-bold text-zinc-900 dark:text-white ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}
                   >
                     {checkoutStep === "success"
-                      ? "Order Confirmed"
+                      ? t("c.confirmed")
                       : checkoutStep === "checkout"
-                      ? "Quick Checkout"
-                      : "Your Order"}
+                      ? t("c.checkout")
+                      : t("c.cart")}
                   </h2>
                   {checkoutStep === "cart" && (
-                    <p className="text-[11px] font-mono text-zinc-400">
-                      {itemCount} {itemCount === 1 ? "item" : "items"} selected
+                    <p className="text-[11px] font-mono text-zinc-400 num" data-ltr>
+                      {itemCount === 1 ? t("c.selOne") : tf("c.selMany", { count: itemCount })}
                     </p>
                   )}
                 </div>
@@ -135,7 +141,7 @@ export default function CartDrawer() {
               <button
                 onClick={handleClose}
                 className="p-2 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-700 dark:hover:text-white transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-500"
-                aria-label="Close cart drawer"
+                aria-label={t("c.close")}
               >
                 <X className="w-4.5 h-4.5" />
               </button>
@@ -144,20 +150,22 @@ export default function CartDrawer() {
             {/* In-Cart Reward Progress Bar */}
             {checkoutStep === "cart" && items.length > 0 && (
               <div className="bg-amber-50/70 dark:bg-amber-950/30 px-5 py-2.5 border-b border-amber-200/50 dark:border-amber-900/40">
-                <div className="flex items-center justify-between text-[11px] font-medium text-amber-900 dark:text-amber-300 mb-1">
+                <div className="flex items-center justify-between text-[11px] font-medium text-amber-900 dark:text-amber-300 mb-1 gap-2">
                   <span className="flex items-center gap-1.5">
-                    <Gift className="w-3.5 h-3.5 text-amber-500" />
+                    <Gift className="w-3.5 h-3.5 text-amber-500 shrink-0" />
                     {amountToNextReward > 0 ? (
                       <>
-                        Add <strong>${amountToNextReward.toFixed(2)}</strong> for a Free Espresso!
+                        {lang === "ar" ? "أضف" : "Add"}{" "}
+                        <strong className="num" data-ltr>${amountToNextReward.toFixed(2)}</strong>{" "}
+                        {lang === "ar" ? "لتحصل على إسبريسو مجاني!" : "for a Free Espresso!"}
                       </>
                     ) : (
                       <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-                        🎉 You unlocked a Free Reward!
+                        🎉 {lang === "ar" ? "فتحت مكافأة مجانية!" : "You unlocked a Free Reward!"}
                       </span>
                     )}
                   </span>
-                  <span className="font-mono text-[10px] opacity-75">{Math.round(milestoneProgress)}%</span>
+                  <span className="font-mono text-[10px] opacity-75 num" data-ltr>{Math.round(milestoneProgress)}%</span>
                 </div>
                 <div className="h-1.5 bg-amber-200/60 dark:bg-zinc-800 rounded-full overflow-hidden">
                   <motion.div
@@ -241,6 +249,8 @@ function CartReviewView({
   onStartCheckout: () => void;
   onClose: () => void;
 }) {
+  const { t, lang } = useI18n();
+
   return (
     <>
       <div className="flex-1 overflow-y-auto p-5 space-y-4">
@@ -249,17 +259,17 @@ function CartReviewView({
             <div className="w-16 h-16 rounded-full bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center mb-3">
               <Coffee className="w-7 h-7 text-zinc-400" />
             </div>
-            <p className="text-zinc-900 dark:text-white text-base font-serif font-bold">
-              Your cart is empty
+            <p className={`text-zinc-900 dark:text-white text-base font-serif font-bold ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+              {t("c.emptyT")}
             </p>
             <p className="text-zinc-500 text-xs mt-1 max-w-xs leading-relaxed">
-              Handcrafted coffees and fresh bakery items are waiting for you.
+              {t("c.emptyD")}
             </p>
             <button
               onClick={onClose}
               className="mt-5 px-5 py-2 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 font-medium text-xs shadow-sm hover:bg-amber-500 dark:hover:bg-amber-400 transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-500"
             >
-              Explore Menu
+              {t("c.explore")}
             </button>
           </div>
         ) : (
@@ -276,7 +286,7 @@ function CartReviewView({
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-serif font-bold text-xs sm:text-sm text-zinc-900 dark:text-zinc-100 truncate">
+                      <h3 className={`font-serif font-bold text-xs sm:text-sm text-zinc-900 dark:text-zinc-100 truncate ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
                         {item.name}
                       </h3>
                       {item.customizations && (
@@ -288,7 +298,7 @@ function CartReviewView({
                     <button
                       onClick={() => removeItem(item.id)}
                       className="p-1 text-zinc-400 hover:text-red-500 transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-500"
-                      aria-label="Remove item"
+                      aria-label={t("c.remove")}
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
@@ -299,22 +309,22 @@ function CartReviewView({
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
                         className="w-6 h-6 rounded-full flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 transition-colors cursor-pointer"
-                        aria-label="Decrease quantity"
+                        aria-label={t("c.dec")}
                       >
                         <Minus className="w-3 h-3" />
                       </button>
-                      <span className="font-mono text-xs font-semibold text-zinc-900 dark:text-white w-5 text-center">
+                      <span className="font-mono text-xs font-semibold text-zinc-900 dark:text-white w-5 text-center num" data-ltr>
                         {item.quantity}
                       </span>
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
                         className="w-6 h-6 rounded-full flex items-center justify-center hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-200 transition-colors cursor-pointer"
-                        aria-label="Increase quantity"
+                        aria-label={t("c.inc")}
                       >
                         <Plus className="w-3 h-3" />
                       </button>
                     </div>
-                    <span className="font-serif font-bold text-xs sm:text-sm text-zinc-900 dark:text-white">
+                    <span className="font-serif font-bold text-xs sm:text-sm text-zinc-900 dark:text-white num" data-ltr>
                       ${(item.price * item.quantity).toFixed(2)}
                     </span>
                   </div>
@@ -328,13 +338,13 @@ function CartReviewView({
                     <span>{appliedReward.name}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono font-bold text-amber-600 dark:text-amber-400">
+                    <span className="text-xs font-mono font-bold text-amber-600 dark:text-amber-400 num" data-ltr>
                       -${appliedReward.discount.toFixed(2)}
                     </span>
                     <button
                       onClick={removeReward}
                       className="text-zinc-400 hover:text-red-500 cursor-pointer"
-                      title="Remove reward"
+                      title={lang === "ar" ? "إزالة المكافأة" : "Remove reward"}
                     >
                       <X className="w-3 h-3" />
                     </button>
@@ -346,11 +356,11 @@ function CartReviewView({
             {/* 1-Click Pastry Carousel */}
             <div className="pt-2">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-zinc-500">
-                  Pair with Fresh Bakery
+                <span className={`text-[11px] font-mono font-semibold text-zinc-500 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+                  {lang === "ar" ? "أضف من المخبوزات" : "Pair with Fresh Bakery"}
                 </span>
                 <span className="text-[10px] text-amber-600 dark:text-amber-400 font-medium">
-                  Baked Daily
+                  {lang === "ar" ? "يُخبز يومياً" : "Baked Daily"}
                 </span>
               </div>
               <div className="grid grid-cols-3 gap-2">
@@ -360,7 +370,7 @@ function CartReviewView({
                     onClick={() =>
                       addItem({
                         id: snack.id,
-                        name: snack.name,
+                        name: t(`menu.${snack.id}.n`),
                         price: snack.price,
                       })
                     }
@@ -370,9 +380,9 @@ function CartReviewView({
                       {snack.emoji}
                     </span>
                     <span className="text-[11px] font-medium text-zinc-800 dark:text-zinc-200 truncate w-full">
-                      {snack.name}
+                      {t(`menu.${snack.id}.n`)}
                     </span>
-                    <span className="text-[10px] font-mono text-amber-600 dark:text-amber-400 font-semibold mt-0.5">
+                    <span className="text-[10px] font-mono text-amber-600 dark:text-amber-400 font-semibold mt-0.5 num" data-ltr>
                       +${snack.price.toFixed(2)}
                     </span>
                   </button>
@@ -387,18 +397,18 @@ function CartReviewView({
         <div className="p-5 border-t border-zinc-200 dark:border-zinc-800 space-y-3 bg-zinc-50/50 dark:bg-zinc-900/50">
           <div className="space-y-1 text-xs">
             <div className="flex justify-between text-zinc-500">
-              <span>Subtotal</span>
-              <span className="font-mono">${subtotal.toFixed(2)}</span>
+              <span>{t("c.subtotal")}</span>
+              <span className="font-mono num" data-ltr>${subtotal.toFixed(2)}</span>
             </div>
             {appliedReward && (
               <div className="flex justify-between text-amber-600 dark:text-amber-400 font-medium">
-                <span>Reward Discount</span>
-                <span className="font-mono">-${discount.toFixed(2)}</span>
+                <span>{t("c.discount")}</span>
+                <span className="font-mono num" data-ltr>-${discount.toFixed(2)}</span>
               </div>
             )}
             <div className="flex justify-between items-baseline text-sm font-bold text-zinc-900 dark:text-white pt-2 border-t border-zinc-200 dark:border-zinc-800">
-              <span className="font-serif">Total Due</span>
-              <span className="text-base font-serif text-amber-600 dark:text-amber-400">
+              <span className={`font-serif ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>{t("c.totalDue")}</span>
+              <span className="text-base font-serif text-amber-600 dark:text-amber-400 num" data-ltr>
                 ${total.toFixed(2)}
               </span>
             </div>
@@ -408,15 +418,15 @@ function CartReviewView({
             onClick={onStartCheckout}
             className="w-full flex items-center justify-center gap-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 hover:bg-amber-500 dark:hover:bg-amber-400 hover:text-zinc-950 active:scale-98 py-3.5 rounded-full font-semibold transition-all shadow-sm cursor-pointer text-xs sm:text-sm focus-visible:ring-2 focus-visible:ring-amber-500"
           >
-            Proceed to Checkout
-            <ArrowRight className="w-4 h-4" />
+            {t("c.proceed")}
+            <ArrowRight className="w-4 h-4 rtl:rotate-180" />
           </button>
 
           <button
             onClick={clearCart}
             className="w-full text-center text-[11px] text-zinc-400 hover:text-red-500 py-1 transition-colors cursor-pointer"
           >
-            Clear order
+            {t("c.clear")}
           </button>
         </div>
       )}
@@ -442,6 +452,14 @@ function CheckoutFormView({
   onPlaceOrder: (e: React.FormEvent) => void;
   onBack: () => void;
 }) {
+  const { t, tf, lang } = useI18n();
+
+  const storeOptions = [
+    { value: "store-1", key: "st.opt1" },
+    { value: "store-2", key: "st.opt2" },
+    { value: "store-3", key: "st.opt3" },
+  ];
+
   return (
     <form
       onSubmit={onPlaceOrder}
@@ -449,51 +467,53 @@ function CheckoutFormView({
     >
       <div className="space-y-4">
         <div>
-          <label className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-zinc-500 mb-1">
-            Customer Name
+          <label className={`block text-[11px] font-mono font-semibold text-zinc-500 mb-1 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+            {t("c.nameL")}
           </label>
           <input
             type="text"
             required
             value={customerName}
             onChange={(e) => setCustomerName(e.target.value)}
-            placeholder="e.g. Alex Smith"
+            placeholder={t("c.nameP")}
             className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
           />
         </div>
 
         <div>
-          <label className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-zinc-500 mb-1">
-            Pickup Roastery
+          <label className={`block text-[11px] font-mono font-semibold text-zinc-500 mb-1 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+            {t("c.storeL")}
           </label>
           <select
             value={pickupStore}
             onChange={(e) => setPickupStore(e.target.value)}
             className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
           >
-            <option value="store-1">Downtown Flagship — 123 Main St</option>
-            <option value="store-2">Riverside Roastery — 456 River Rd</option>
-            <option value="store-3">University Commons — 789 College Ave</option>
+            {storeOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {t(opt.key)}
+              </option>
+            ))}
           </select>
         </div>
 
         <div className="p-3.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 space-y-1.5 text-xs text-zinc-600 dark:text-zinc-400">
           <div className="flex items-center gap-2 font-medium text-zinc-900 dark:text-zinc-100">
-            <Clock className="w-3.5 h-3.5 text-amber-500" />
-            <span>Ready in approx. 8–12 minutes</span>
+            <Clock className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+            <span>{t("c.readyInfo")}</span>
           </div>
           <div className="flex items-center gap-2">
-            <MapPin className="w-3.5 h-3.5 text-zinc-400" />
-            <span>Express Counter pickup ready</span>
+            <MapPin className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+            <span>{t("c.pickupInfo")}</span>
           </div>
         </div>
 
         <div className="pt-2 border-t border-zinc-200 dark:border-zinc-800">
           <div className="flex justify-between items-baseline text-sm">
             <span className="font-semibold text-zinc-900 dark:text-white">
-              Total Amount
+              {t("c.amountDue")}
             </span>
-            <span className="text-base font-serif font-bold text-amber-600 dark:text-amber-400">
+            <span className="text-base font-serif font-bold text-amber-600 dark:text-amber-400 num" data-ltr>
               ${total.toFixed(2)}
             </span>
           </div>
@@ -505,14 +525,14 @@ function CheckoutFormView({
           type="submit"
           className="w-full bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 hover:bg-amber-500 dark:hover:bg-amber-400 hover:text-zinc-950 py-3.5 rounded-full font-semibold transition-all shadow-sm cursor-pointer text-xs sm:text-sm focus-visible:ring-2 focus-visible:ring-amber-500"
         >
-          Confirm &amp; Place Order (${total.toFixed(2)})
+          {tf("c.confirm", { total: `$${total.toFixed(2)}` })}
         </button>
         <button
           type="button"
           onClick={onBack}
           className="w-full text-center text-xs text-zinc-400 hover:text-zinc-700 py-1 cursor-pointer"
         >
-          Back to cart review
+          {t("c.back")}
         </button>
       </div>
     </form>
@@ -529,6 +549,8 @@ function OrderSuccessView({
   orderNumber: string;
   onClose: () => void;
 }) {
+  const { t, tf, lang } = useI18n();
+
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
       <motion.div
@@ -540,27 +562,27 @@ function OrderSuccessView({
         <CheckCircle2 className="w-7 h-7" />
       </motion.div>
 
-      <h3 className="text-xl font-serif font-bold text-zinc-900 dark:text-white">
-        Order In The Works!
+      <h3 className={`text-xl font-serif font-bold text-zinc-900 dark:text-white ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+        {t("c.successT")}
       </h3>
       <p className="text-xs text-zinc-500 mt-1">
-        Thank you, <span className="font-semibold">{customerName || "Friend"}</span>!
+        {tf("c.thanks", { name: customerName || (lang === "ar" ? "صديقنا" : "Friend") })}
       </p>
 
-      <div className="my-5 p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 w-full max-w-xs text-left space-y-1.5 text-xs">
+      <div className="my-5 p-4 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 w-full max-w-xs space-y-1.5 text-xs" dir={lang === "ar" ? "rtl" : "ltr"}>
         <div className="flex justify-between">
-          <span className="text-zinc-400">Order Ref:</span>
-          <span className="font-mono font-bold text-amber-600 dark:text-amber-400">
+          <span className="text-zinc-400">{t("c.ref")}</span>
+          <span className="font-mono font-bold text-amber-600 dark:text-amber-400" data-ltr>
             {orderNumber}
           </span>
         </div>
         <div className="flex justify-between">
-          <span className="text-zinc-400">Est. Ready:</span>
-          <span className="font-medium text-zinc-900 dark:text-white">10 mins</span>
+          <span className="text-zinc-400">{t("c.ready")}</span>
+          <span className="font-medium text-zinc-900 dark:text-white">{t("c.readyVal")}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-zinc-400">Club Points:</span>
-          <span className="font-bold text-amber-500">+25 pts</span>
+          <span className="text-zinc-400">{t("c.pts")}</span>
+          <span className="font-bold text-amber-500">{t("c.ptsVal")}</span>
         </div>
       </div>
 
@@ -568,7 +590,7 @@ function OrderSuccessView({
         onClick={onClose}
         className="px-6 py-2.5 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 font-medium text-xs shadow-sm hover:bg-amber-500 dark:hover:bg-amber-400 transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-500"
       >
-        Done
+        {t("c.done")}
       </button>
     </div>
   );

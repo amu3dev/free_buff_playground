@@ -4,44 +4,45 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, ShoppingCart, Sliders } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
+import { useI18n } from "@/lib/i18n";
 
 type DrinkType = "latte" | "cappuccino" | "americano" | "cold-brew";
 
 interface Option {
   id: string;
-  label: string;
+  labelKey: string;
   emoji: string;
   price: number;
 }
 
-const drinkTypes: { id: DrinkType; label: string; emoji: string; basePrice: number; defaultProfile: { intensity: number; sweetness: number; creaminess: number } }[] = [
-  { id: "latte", label: "Caffè Latte", emoji: "🥛", basePrice: 4.5, defaultProfile: { intensity: 60, sweetness: 40, creaminess: 85 } },
-  { id: "cappuccino", label: "Cappuccino", emoji: "☕", basePrice: 4.5, defaultProfile: { intensity: 75, sweetness: 30, creaminess: 70 } },
-  { id: "americano", label: "Americano", emoji: "☕", basePrice: 3.5, defaultProfile: { intensity: 85, sweetness: 10, creaminess: 10 } },
-  { id: "cold-brew", label: "Cold Brew", emoji: "🧊", basePrice: 4.0, defaultProfile: { intensity: 80, sweetness: 20, creaminess: 15 } },
+const drinkTypes: { id: DrinkType; labelKey: string; emoji: string; basePrice: number; defaultProfile: { intensity: number; sweetness: number; creaminess: number } }[] = [
+  { id: "latte", labelKey: "drink.latte", emoji: "🥛", basePrice: 4.5, defaultProfile: { intensity: 60, sweetness: 40, creaminess: 85 } },
+  { id: "cappuccino", labelKey: "drink.cappuccino", emoji: "☕", basePrice: 4.5, defaultProfile: { intensity: 75, sweetness: 30, creaminess: 70 } },
+  { id: "americano", labelKey: "drink.americano", emoji: "☕", basePrice: 3.5, defaultProfile: { intensity: 85, sweetness: 10, creaminess: 10 } },
+  { id: "cold-brew", labelKey: "drink.coldBrew", emoji: "🧊", basePrice: 4.0, defaultProfile: { intensity: 80, sweetness: 20, creaminess: 15 } },
 ];
 
 const sizes: Option[] = [
-  { id: "small", label: "Small (8oz)", emoji: "🥤", price: 0 },
-  { id: "medium", label: "Medium (12oz)", emoji: "🥤", price: 0.75 },
-  { id: "large", label: "Large (16oz)", emoji: "🥤", price: 1.25 },
+  { id: "small", labelKey: "size.small", emoji: "🥤", price: 0 },
+  { id: "medium", labelKey: "size.medium", emoji: "🥤", price: 0.75 },
+  { id: "large", labelKey: "size.large", emoji: "🥤", price: 1.25 },
 ];
 
 const milks: Option[] = [
-  { id: "whole", label: "Whole Milk", emoji: "🥛", price: 0 },
-  { id: "oat", label: "Barista Oat Milk", emoji: "🌾", price: 0.6 },
-  { id: "almond", label: "Organic Almond", emoji: "🥜", price: 0.6 },
-  { id: "soy", label: "Soy Milk", emoji: "🫘", price: 0.5 },
-  { id: "coconut", label: "Coconut Milk", emoji: "🥥", price: 0.6 },
+  { id: "whole", labelKey: "milk.whole", emoji: "🥛", price: 0 },
+  { id: "oat", labelKey: "milk.oat", emoji: "🌾", price: 0.6 },
+  { id: "almond", labelKey: "milk.almond", emoji: "🥜", price: 0.6 },
+  { id: "soy", labelKey: "milk.soy", emoji: "🫘", price: 0.5 },
+  { id: "coconut", labelKey: "milk.coconut", emoji: "🥥", price: 0.6 },
 ];
 
 const extras: Option[] = [
-  { id: "vanilla", label: "Madagascar Vanilla", emoji: "🍦", price: 0.5 },
-  { id: "caramel", label: "Sea Salt Caramel", emoji: "🍯", price: 0.75 },
-  { id: "hazelnut", label: "Toasted Hazelnut", emoji: "🌰", price: 0.5 },
-  { id: "cinnamon", label: "Ceylon Cinnamon", emoji: "🫚", price: 0.25 },
-  { id: "whipped", label: "Whipped Cream", emoji: "🍦", price: 0.5 },
-  { id: "extra-shot", label: "Extra Ristretto Shot", emoji: "☕", price: 1.0 },
+  { id: "vanilla", labelKey: "ex.vanilla", emoji: "🍦", price: 0.5 },
+  { id: "caramel", labelKey: "ex.caramel", emoji: "🍯", price: 0.75 },
+  { id: "hazelnut", labelKey: "ex.hazelnut", emoji: "🌰", price: 0.5 },
+  { id: "cinnamon", labelKey: "ex.cinnamon", emoji: "🫚", price: 0.25 },
+  { id: "whipped", labelKey: "ex.whipped", emoji: "🍦", price: 0.5 },
+  { id: "extra-shot", labelKey: "ex.extraShot", emoji: "☕", price: 1.0 },
 ];
 
 export default function CustomDrinkBuilder() {
@@ -51,6 +52,7 @@ export default function CustomDrinkBuilder() {
   const [selectedExtras, setSelectedExtras] = useState<string[]>([]);
   const [isAdded, setIsAdded] = useState(false);
   const { addItem, openCart } = useCart();
+  const { t, lang } = useI18n();
 
   const selectedDrinkObj = drinkTypes.find((d) => d.id === drink) ?? drinkTypes[0];
   const basePrice = selectedDrinkObj.basePrice;
@@ -77,17 +79,17 @@ export default function CustomDrinkBuilder() {
   };
 
   const handleAdd = () => {
-    const sizeLabel = sizes.find((s) => s.id === size)?.label ?? "";
-    const milkLabel = milks.find((m) => m.id === milk)?.label ?? "";
+    const sizeLabel = t(sizes.find((s) => s.id === size)?.labelKey ?? "");
+    const milkLabel = t(milks.find((m) => m.id === milk)?.labelKey ?? "");
     const extrasLabels = extras
       .filter((e) => selectedExtras.includes(e.id))
-      .map((e) => e.label)
-      .join(", ");
+      .map((e) => t(e.labelKey))
+      .join("، ");
     const customizations = [sizeLabel, milkLabel, extrasLabels].filter(Boolean).join(" • ");
 
     addItem({
       id: `custom-${drink}-${Date.now()}`,
-      name: `Custom ${selectedDrinkObj.label}`,
+      name: t(`custom.${drink}`),
       price: total,
       customizations,
     });
@@ -111,14 +113,14 @@ export default function CustomDrinkBuilder() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <span className="text-xs font-mono font-semibold text-amber-600 dark:text-amber-400 tracking-widest uppercase mb-3 inline-block">
-            Barista Lab
+          <span className={`text-xs font-mono font-semibold text-amber-600 dark:text-amber-400 mb-3 inline-block ${lang === "ar" ? "" : "tracking-widest uppercase"}`}>
+            {t("b.kicker")}
           </span>
-          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-zinc-900 dark:text-zinc-50">
-            Build Your Recipe
+          <h2 className={`text-3xl sm:text-5xl font-serif font-bold text-zinc-900 dark:text-zinc-50 ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+            {t("b.title")}
           </h2>
           <p className="mt-3 text-zinc-600 dark:text-zinc-400 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
-            Customize the foundation, volume, dairy alternatives, and artisan house syrups.
+            {t("b.sub")}
           </p>
         </motion.div>
 
@@ -131,8 +133,8 @@ export default function CustomDrinkBuilder() {
         >
           {/* 1. Base Drink Type */}
           <div className="mb-8">
-            <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-3">
-              01 / Select Foundation
+            <h4 className={`text-xs font-mono font-semibold text-zinc-500 dark:text-zinc-400 mb-3 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+              {t("b.step1")}
             </h4>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {drinkTypes.map((d) => (
@@ -146,8 +148,8 @@ export default function CustomDrinkBuilder() {
                   }`}
                 >
                   <span className="text-2xl mb-1">{d.emoji}</span>
-                  <span className="font-semibold text-xs sm:text-sm">{d.label}</span>
-                  <span className="text-[11px] text-zinc-400 font-mono">
+                  <span className="font-semibold text-xs sm:text-sm">{t(d.labelKey)}</span>
+                  <span className="text-[11px] text-zinc-400 font-mono num" data-ltr>
                     ${d.basePrice.toFixed(2)}
                   </span>
                 </button>
@@ -158,8 +160,8 @@ export default function CustomDrinkBuilder() {
           <div className="space-y-7">
             {/* 2. Size */}
             <div>
-              <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-3">
-                02 / Size &amp; Volume
+              <h4 className={`text-xs font-mono font-semibold text-zinc-500 dark:text-zinc-400 mb-3 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+                {t("b.step2")}
               </h4>
               <div className="grid grid-cols-3 gap-2.5">
                 {sizes.map((opt) => (
@@ -172,13 +174,13 @@ export default function CustomDrinkBuilder() {
                         : "border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300"
                     }`}
                   >
-                    <span>{opt.label}</span>
+                    <span>{t(opt.labelKey)}</span>
                     {opt.price > 0 ? (
-                      <span className="text-[11px] font-mono font-semibold text-amber-600 dark:text-amber-400">
+                      <span className="text-[11px] font-mono font-semibold text-amber-600 dark:text-amber-400 num" data-ltr>
                         +${opt.price.toFixed(2)}
                       </span>
                     ) : (
-                      <span className="text-[11px] text-zinc-400 font-mono">Std</span>
+                      <span className="text-[11px] text-zinc-400 font-mono">{t("b.std")}</span>
                     )}
                   </button>
                 ))}
@@ -187,8 +189,8 @@ export default function CustomDrinkBuilder() {
 
             {/* 3. Milk */}
             <div>
-              <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-3">
-                03 / Milk &amp; Plant Bases
+              <h4 className={`text-xs font-mono font-semibold text-zinc-500 dark:text-zinc-400 mb-3 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+                {t("b.step3")}
               </h4>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                 {milks.map((opt) => (
@@ -202,9 +204,9 @@ export default function CustomDrinkBuilder() {
                     }`}
                   >
                     <span>{opt.emoji}</span>
-                    <span className="flex-1 text-left truncate">{opt.label}</span>
+                    <span className="flex-1 truncate">{opt.labelKey === "" ? "" : t(opt.labelKey)}</span>
                     {opt.price > 0 && (
-                      <span className="text-[11px] font-mono font-semibold text-amber-600 dark:text-amber-400">
+                      <span className="text-[11px] font-mono font-semibold text-amber-600 dark:text-amber-400 num" data-ltr>
                         +${opt.price.toFixed(2)}
                       </span>
                     )}
@@ -215,8 +217,8 @@ export default function CustomDrinkBuilder() {
 
             {/* 4. Extras */}
             <div>
-              <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-3">
-                04 / Syrups &amp; Add-ons
+              <h4 className={`text-xs font-mono font-semibold text-zinc-500 dark:text-zinc-400 mb-3 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+                {t("b.step4")}
               </h4>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                 {extras.map((ext) => {
@@ -232,8 +234,8 @@ export default function CustomDrinkBuilder() {
                       }`}
                     >
                       <span>{ext.emoji}</span>
-                      <span className="flex-1 text-left truncate">{ext.label}</span>
-                      <span className="text-[11px] font-mono text-zinc-400">
+                      <span className="flex-1 truncate">{t(ext.labelKey)}</span>
+                      <span className="text-[11px] font-mono text-zinc-400 num" data-ltr>
                         +${ext.price.toFixed(2)}
                       </span>
                       {selected && <Check className="w-3.5 h-3.5 text-amber-500 shrink-0" />}
@@ -245,15 +247,15 @@ export default function CustomDrinkBuilder() {
 
             {/* Sensory Tasting Profile Visualizer */}
             <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800">
-              <div className="flex items-center gap-2 text-xs font-mono font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider mb-3">
-                <Sliders className="w-3.5 h-3.5 text-amber-500" />
-                <span>Live Sensory Profile Estimate</span>
+              <div className={`flex items-center gap-2 text-xs font-mono font-semibold text-zinc-700 dark:text-zinc-300 mb-3 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+                <Sliders className="w-3.5 h-3.5 text-amber-500 rtl:-scale-x-100" />
+                <span>{lang === "ar" ? "تقدير حسي مباشر للنكهة" : "Live Sensory Profile Estimate"}</span>
               </div>
               <div className="grid sm:grid-cols-3 gap-4 text-xs">
                 <div>
                   <div className="flex justify-between text-zinc-500 mb-1">
-                    <span>Espresso Intensity</span>
-                    <span className="font-mono text-zinc-700 dark:text-zinc-300">{currentIntensity}%</span>
+                    <span>{lang === "ar" ? "قوة الإسبريسو" : "Espresso Intensity"}</span>
+                    <span className="font-mono text-zinc-700 dark:text-zinc-300 num" data-ltr>{currentIntensity}%</span>
                   </div>
                   <div className="h-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
                     <div className="h-full bg-amber-600 rounded-full transition-all duration-300" style={{ width: `${currentIntensity}%` }} />
@@ -262,8 +264,8 @@ export default function CustomDrinkBuilder() {
 
                 <div>
                   <div className="flex justify-between text-zinc-500 mb-1">
-                    <span>Sweetness Level</span>
-                    <span className="font-mono text-zinc-700 dark:text-zinc-300">{currentSweetness}%</span>
+                    <span>{lang === "ar" ? "مستوى الحلاوة" : "Sweetness Level"}</span>
+                    <span className="font-mono text-zinc-700 dark:text-zinc-300 num" data-ltr>{currentSweetness}%</span>
                   </div>
                   <div className="h-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
                     <div className="h-full bg-amber-400 rounded-full transition-all duration-300" style={{ width: `${currentSweetness}%` }} />
@@ -272,8 +274,8 @@ export default function CustomDrinkBuilder() {
 
                 <div>
                   <div className="flex justify-between text-zinc-500 mb-1">
-                    <span>Microfoam Creaminess</span>
-                    <span className="font-mono text-zinc-700 dark:text-zinc-300">{currentCreaminess}%</span>
+                    <span>{lang === "ar" ? "نعومة الرغوة" : "Microfoam Creaminess"}</span>
+                    <span className="font-mono text-zinc-700 dark:text-zinc-300 num" data-ltr>{currentCreaminess}%</span>
                   </div>
                   <div className="h-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
                     <div className="h-full bg-amber-300 rounded-full transition-all duration-300" style={{ width: `${currentCreaminess}%` }} />
@@ -286,10 +288,10 @@ export default function CustomDrinkBuilder() {
           {/* Bottom Total & Order Button */}
           <div className="mt-8 pt-6 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-              <span className="text-[11px] font-mono uppercase tracking-wider text-zinc-400">
-                Calculated Total
+              <span className={`text-[11px] font-mono text-zinc-400 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+                {t("b.total")}
               </span>
-              <div className="text-3xl font-serif font-bold text-zinc-900 dark:text-white mt-0.5">
+              <div className="text-3xl font-serif font-bold text-zinc-900 dark:text-white mt-0.5 num" data-ltr>
                 ${total.toFixed(2)}
               </div>
             </div>
@@ -306,21 +308,21 @@ export default function CustomDrinkBuilder() {
                 {isAdded ? (
                   <>
                     <Check className="w-4 h-4" />
-                    <span>Added to Order!</span>
+                    <span>{t("b.added")}</span>
                   </>
                 ) : (
                   <>
                     <ShoppingCart className="w-4 h-4" />
-                    <span>Add Custom Drink</span>
+                    <span>{t("b.add")}</span>
                   </>
                 )}
               </button>
 
               <button
                 onClick={openCart}
-                className="px-4 py-3.5 rounded-full border border-zinc-200 dark:border-zinc-700 hover:border-zinc-400 text-zinc-700 dark:text-zinc-300 text-xs font-semibold cursor-pointer"
+                className="px-4 py-3.5 rounded-full border border-zinc-200 dark:border-zinc-700 hover:border-zinc-400 text-zinc-700 dark:text-zinc-300 text-xs font-semibold cursor-pointer whitespace-nowrap"
               >
-                Review Cart
+                {t("b.review")}
               </button>
             </div>
           </div>

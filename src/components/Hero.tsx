@@ -4,17 +4,25 @@ import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, Plus, Check } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
+import { useI18n } from "@/lib/i18n";
 
 export default function Hero() {
   const { addItem, openCart } = useCart();
   const [bundleAdded, setBundleAdded] = useState(false);
+  const { t, tf, lang } = useI18n();
 
   const handleOrderFeatured = () => {
     addItem({
       id: "featured-latte-of-the-day",
-      name: "Caramel Hazelnut Latte (Daily Feature)",
+      name:
+        lang === "ar"
+          ? "لاتيه الكراميل والبندق (مشروب اليوم)"
+          : "Caramel Hazelnut Latte (Daily Feature)",
       price: 5.5,
-      customizations: "Medium (12oz) • Whole Milk • Hazelnut & Caramel",
+      customizations:
+        lang === "ar"
+          ? "وسط (12oz) • حليب كامل • بندق وكراميل"
+          : "Medium (12oz) • Whole Milk • Hazelnut & Caramel",
     });
     openCart();
   };
@@ -22,9 +30,15 @@ export default function Hero() {
   const handleOrderPairingBundle = () => {
     addItem({
       id: "daily-morning-pairing",
-      name: "Morning Ritual Pairing (Latte + Croissant)",
+      name:
+        lang === "ar"
+          ? "طقوس الصباح (لاتيه + كرواسون)"
+          : "Morning Ritual Pairing (Latte + Croissant)",
       price: 7.5,
-      customizations: "Caramel Hazelnut Latte (12oz) + Butter Croissant",
+      customizations:
+        lang === "ar"
+          ? "لاتيه الكراميل والبندق (12oz) + كرواسون بالزبدة"
+          : "Caramel Hazelnut Latte (12oz) + Butter Croissant",
     });
     setBundleAdded(true);
     setTimeout(() => {
@@ -32,6 +46,12 @@ export default function Hero() {
       openCart();
     }, 600);
   };
+
+  const stats = [
+    { value: "14+", label: t("hero.s1l") },
+    { value: "48h", label: t("hero.s2l") },
+    { value: "98.4%", label: t("hero.s3l") },
+  ];
 
   return (
     <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-zinc-950 text-zinc-100">
@@ -52,20 +72,19 @@ export default function Hero() {
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-800 text-zinc-300 text-xs font-medium tracking-wide mb-6 backdrop-blur-md">
             <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-            <span>Single-Origin Specialty Roasters • Est. 2018</span>
+            <span>{t("hero.badge")}</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-bold text-white leading-[1.08] tracking-tight">
-            Pursuing the art of{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-300 italic font-serif">
-              exceptional
+          <h1 className={`text-4xl sm:text-6xl lg:text-7xl font-serif font-bold text-white leading-[1.08] ${lang === "ar" ? "tracking-normal leading-[1.3]" : "tracking-tight"}`}>
+            {t("hero.t1")}{" "}
+            <span className={`text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-300 font-serif ${lang === "ar" ? "" : "italic"}`}>
+              {t("hero.t2")}
             </span>{" "}
-            coffee.
+            {t("hero.t3")}
           </h1>
 
           <p className="mt-6 text-base sm:text-lg text-zinc-400 max-w-xl leading-relaxed">
-            From direct-trade Ethiopian natural pour-overs to velvety microfoam flat whites, every cup
-            at Brew &amp; Bean is roasted in micro-batches to highlight terroir and nuance.
+            {t("hero.desc")}
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -73,29 +92,25 @@ export default function Hero() {
               href="#menu"
               className="inline-flex items-center gap-2.5 bg-amber-500 hover:bg-amber-400 active:scale-98 text-zinc-950 px-8 py-4 rounded-full font-semibold text-sm transition-all shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 cursor-pointer"
             >
-              Explore Our Menu
-              <ArrowRight className="w-4 h-4" />
+              {t("hero.cta1")}
+              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
             </a>
             <a
               href="#customize"
               className="inline-flex items-center gap-2 bg-zinc-900/80 hover:bg-zinc-800 text-zinc-200 border border-zinc-800 hover:border-zinc-700 px-8 py-4 rounded-full font-semibold text-sm transition-all backdrop-blur-sm active:scale-98"
             >
-              Custom Barista Lab
+              {t("hero.cta2")}
             </a>
           </div>
 
           {/* Metrics */}
           <div className="mt-14 pt-8 border-t border-zinc-800/80 grid grid-cols-3 gap-6 sm:gap-8 max-w-lg">
-            {[
-              { value: "14+", label: "Origins Direct" },
-              { value: "48h", label: "Roast Freshness" },
-              { value: "98.4%", label: "Taste Score" },
-            ].map((stat) => (
+            {stats.map((stat) => (
               <div key={stat.label}>
-                <div className="text-2xl sm:text-3xl font-serif font-bold text-white tracking-tight">
+                <div className="text-2xl sm:text-3xl font-serif font-bold text-white tracking-tight num" data-ltr>
                   {stat.value}
                 </div>
-                <div className="text-xs text-zinc-500 font-medium uppercase tracking-wider mt-1">
+                <div className={`text-xs text-zinc-500 font-medium mt-1 ${lang === "ar" ? "" : "uppercase tracking-wider"}`}>
                   {stat.label}
                 </div>
               </div>
@@ -117,11 +132,11 @@ export default function Hero() {
             {/* Elevated Boutique Card */}
             <div className="relative bg-zinc-900/90 backdrop-blur-xl rounded-3xl p-7 sm:p-8 border border-zinc-800 shadow-2xl">
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold uppercase tracking-wider border border-amber-500/20">
+                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold uppercase tracking-wider border border-amber-500/20 ${lang === "ar" ? "normal-case tracking-normal" : ""}`}>
                   <Sparkles className="w-3.5 h-3.5" />
-                  Barista Feature
+                  {t("hero.fBadge")}
                 </span>
-                <span className="text-lg font-serif font-bold text-white">$5.50</span>
+                <span className="text-lg font-serif font-bold text-white num" data-ltr>$5.50</span>
               </div>
 
               <div className="my-6 flex justify-center">
@@ -131,11 +146,11 @@ export default function Hero() {
               </div>
 
               <div className="text-center">
-                <h3 className="text-xl font-serif font-bold text-white">
-                  Caramel Hazelnut Latte
+                <h3 className={`text-xl font-serif font-bold text-white ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+                  {t("hero.fName")}
                 </h3>
                 <p className="text-xs text-zinc-400 mt-1.5 leading-relaxed">
-                  Ristretto double shot over toasted hazelnut reduction and sea salt caramel.
+                  {t("hero.fDesc")}
                 </p>
 
                 <div className="mt-5 space-y-2">
@@ -144,32 +159,32 @@ export default function Hero() {
                     className="w-full flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-zinc-950 active:scale-98 py-3 rounded-full font-semibold transition-all shadow-md shadow-amber-500/15 cursor-pointer text-xs sm:text-sm"
                   >
                     <Plus className="w-4 h-4" />
-                    Order Daily Feature ($5.50)
+                    {tf("hero.fAdd", { price: "$5.50" })}
                   </button>
 
                   {/* Morning Ritual Pairing Bundle */}
                   <button
                     onClick={handleOrderPairingBundle}
-                    className="w-full flex items-center justify-between px-4 py-2.5 rounded-2xl bg-zinc-800/80 hover:bg-zinc-800 border border-zinc-700/60 hover:border-amber-500/40 text-left transition-all cursor-pointer group"
+                    className="w-full flex items-center justify-between px-4 py-2.5 rounded-2xl bg-zinc-800/80 hover:bg-zinc-800 border border-zinc-700/60 hover:border-amber-500/40 text-start transition-all cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
                       <span className="text-lg">🥐</span>
-                      <div>
+                      <div className="text-start">
                         <div className="text-xs font-semibold text-zinc-200 group-hover:text-amber-400 transition-colors">
-                          Pair with Butter Croissant
+                          {lang === "ar" ? "أضف كرواسون بالزبدة" : "Pair with Butter Croissant"}
                         </div>
                         <div className="text-[10px] text-zinc-400">
-                          Save $1.50 with Breakfast Set
+                          {lang === "ar" ? "وفّر $1.50 مع وجبة الفطور" : "Save $1.50 with Breakfast Set"}
                         </div>
                       </div>
                     </div>
-                    <span className="text-xs font-mono font-bold text-amber-400">
+                    <span className="text-xs font-mono font-bold text-amber-400 num" data-ltr>
                       {bundleAdded ? (
                         <span className="flex items-center gap-1 text-emerald-400">
-                          <Check className="w-3.5 h-3.5" /> Set Added
+                          <Check className="w-3.5 h-3.5" /> {lang === "ar" ? "تمت الإضافة" : "Set Added"}
                         </span>
                       ) : (
-                        "$7.50 Set"
+                        "$7.50"
                       )}
                     </span>
                   </button>

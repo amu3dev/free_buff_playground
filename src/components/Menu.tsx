@@ -4,74 +4,61 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Check } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
+import { useI18n } from "@/lib/i18n";
 
 type Category = "espresso" | "cold" | "specialty" | "pastries";
 
 interface MenuItem {
   id: string;
-  name: string;
-  description: string;
   price: number;
   emoji: string;
   category: Category;
   tags?: string[];
 }
 
-const categories: { key: Category; label: string; emoji: string }[] = [
-  { key: "espresso", label: "Espresso & Milk", emoji: "☕" },
-  { key: "cold", label: "Cold Brew & Nitro", emoji: "🧊" },
-  { key: "specialty", label: "Signature Crafts", emoji: "✨" },
-  { key: "pastries", label: "Artisan Bakery", emoji: "🥐" },
+const categories: { key: Category; labelKey: string; emoji: string }[] = [
+  { key: "espresso", labelKey: "cat.espresso", emoji: "☕" },
+  { key: "cold", labelKey: "cat.cold", emoji: "🧊" },
+  { key: "specialty", labelKey: "cat.specialty", emoji: "✨" },
+  { key: "pastries", labelKey: "cat.pastries", emoji: "🥐" },
 ];
 
 const menuItems: MenuItem[] = [
   // Espresso
   {
     id: "espresso-1",
-    name: "Classic Espresso",
-    description: "Bold, rich, and balanced double shot with dense golden crema",
     price: 3.5,
     emoji: "☕",
     category: "espresso",
-    tags: ["House Blend"],
+    tags: ["houseBlend"],
   },
   {
     id: "espresso-2",
-    name: "Cappuccino",
-    description: "Equal thirds espresso, steamed whole milk, and microfoam cushion",
     price: 5.0,
     emoji: "☕",
     category: "espresso",
-    tags: ["Popular"],
+    tags: ["popular"],
   },
   {
     id: "espresso-3",
-    name: "Caffè Latte",
-    description: "Smooth double shot layered with velvety steamed milk",
     price: 5.5,
     emoji: "🥛",
     category: "espresso",
   },
   {
     id: "espresso-4",
-    name: "Flat White",
-    description: "Double ristretto poured delicately with glossy microfoam",
     price: 5.5,
     emoji: "☕",
     category: "espresso",
   },
   {
     id: "espresso-5",
-    name: "Cortado",
-    description: "Equal parts espresso and warm textured milk",
     price: 4.5,
     emoji: "☕",
     category: "espresso",
   },
   {
     id: "espresso-6",
-    name: "Americano",
-    description: "Espresso extracted over hot water for clarity and aroma",
     price: 4.0,
     emoji: "☕",
     category: "espresso",
@@ -80,106 +67,82 @@ const menuItems: MenuItem[] = [
   // Cold Brew
   {
     id: "cold-1",
-    name: "24-Hour Cold Brew",
-    description: "Steeped slowly in chilled filtered water for zero astringency",
     price: 5.0,
     emoji: "🧊",
     category: "cold",
-    tags: ["Slow Steeped"],
+    tags: ["slowSteeped"],
   },
   {
     id: "cold-2",
-    name: "Iced Sea Salt Caramel Latte",
-    description: "Espresso, organic milk, and house caramel over crystal ice",
     price: 6.0,
     emoji: "🧊",
     category: "cold",
-    tags: ["Sweet"],
+    tags: ["sweet"],
   },
   {
     id: "cold-3",
-    name: "Kyoto Drip Cold Brew",
-    description: "Slow Japanese drip brew showcasing delicate floral tasting notes",
     price: 6.0,
     emoji: "🧊",
     category: "cold",
   },
   {
     id: "cold-4",
-    name: "Nitro Cold Brew",
-    description: "Nitrogenated cold brew poured on tap with cascading stout body",
     price: 6.0,
     emoji: "🧊",
     category: "cold",
-    tags: ["On Tap"],
+    tags: ["onTap"],
   },
 
   // Specialty
   {
     id: "spec-1",
-    name: "Lavender Oat Latte",
-    description: "Espresso with barista oat milk and organic French lavender syrup",
     price: 6.5,
     emoji: "💜",
     category: "specialty",
-    tags: ["Signature"],
+    tags: ["signature"],
   },
   {
     id: "spec-2",
-    name: "Maple Cinnamon Cortado",
-    description: "Grade-A Vermont maple, Ceylon cinnamon, and velvety espresso",
     price: 6.5,
     emoji: "🍁",
     category: "specialty",
   },
   {
     id: "spec-3",
-    name: "Honey Cardamom Latte",
-    description: "Aromatic crushed green cardamom paired with wildflower honey",
     price: 6.0,
     emoji: "🍯",
     category: "specialty",
   },
   {
     id: "spec-4",
-    name: "Mocha Royale",
-    description: "70% single-origin dark chocolate, espresso, and vanilla cream",
     price: 7.0,
     emoji: "🍫",
     category: "specialty",
-    tags: ["Indulgent"],
+    tags: ["indulgent"],
   },
 
   // Pastries
   {
     id: "pasty-1",
-    name: "Butter Croissant",
-    description: "Flaky, multi-layered French pastry baked fresh every morning",
     price: 3.5,
     emoji: "🥐",
     category: "pastries",
-    tags: ["Fresh Baked"],
+    tags: ["freshBaked"],
   },
   {
     id: "pasty-2",
-    name: "Blueberry Lemon Muffin",
-    description: "Loaded with wild blueberries and Meyer lemon zest sugar topping",
     price: 3.5,
     emoji: "🧁",
     category: "pastries",
   },
   {
     id: "pasty-3",
-    name: "Cinnamon Brioche Roll",
-    description: "Warm spiced swirl pastry topped with cream cheese glaze",
     price: 4.0,
     emoji: "🍥",
     category: "pastries",
   },
   {
     id: "pasty-4",
-    name: "Almond Twice-Baked Biscotti",
-    description: "Crunchy roasted almond cookie crafted for espresso dipping",
     price: 2.5,
     emoji: "🍪",
     category: "pastries",
@@ -190,9 +153,14 @@ export default function MenuSection() {
   const [active, setActive] = useState<Category>("espresso");
   const [addedItems, setAddedItems] = useState<Record<string, boolean>>({});
   const { addItem } = useCart();
+  const { t, lang } = useI18n();
 
   const handleAdd = (item: MenuItem) => {
-    addItem({ id: item.id, name: item.name, price: item.price });
+    addItem({
+      id: item.id,
+      name: t(`menu.${item.id}.n`),
+      price: item.price,
+    });
     setAddedItems((prev) => ({ ...prev, [item.id]: true }));
     setTimeout(() => {
       setAddedItems((prev) => ({ ...prev, [item.id]: false }));
@@ -211,14 +179,14 @@ export default function MenuSection() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <span className="text-xs font-mono font-semibold text-amber-600 dark:text-amber-400 tracking-widest uppercase mb-3 inline-block">
-            Curated Menu
+          <span className={`text-xs font-mono font-semibold text-amber-600 dark:text-amber-400 mb-3 inline-block ${lang === "ar" ? "" : "tracking-widest uppercase"}`}>
+            {t("menu.kicker")}
           </span>
-          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-zinc-900 dark:text-zinc-50">
-            Handcrafted Offerings
+          <h2 className={`text-3xl sm:text-5xl font-serif font-bold text-zinc-900 dark:text-zinc-50 ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+            {t("menu.title")}
           </h2>
           <p className="mt-3 text-zinc-600 dark:text-zinc-400 text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
-            Every beverage is dialed in daily by our lead baristas to preserve delicate tasting notes.
+            {t("menu.sub")}
           </p>
         </motion.div>
 
@@ -235,7 +203,7 @@ export default function MenuSection() {
               }`}
             >
               <span>{cat.emoji}</span>
-              <span>{cat.label}</span>
+              <span>{t(cat.labelKey)}</span>
             </button>
           ))}
         </div>
@@ -264,25 +232,25 @@ export default function MenuSection() {
                           {item.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="text-[10px] font-mono font-medium tracking-wider uppercase px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/40"
+                              className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/40 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "tracking-wider uppercase"}`}
                             >
-                              {tag}
+                              {t(`tag.${tag}`)}
                             </span>
                           ))}
                         </div>
                       )}
                     </div>
 
-                    <h3 className="text-base font-serif font-bold text-zinc-900 dark:text-zinc-100 mt-4 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
-                      {item.name}
+                    <h3 className={`text-base font-serif font-bold text-zinc-900 dark:text-zinc-100 mt-4 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+                      {t(`menu.${item.id}.n`)}
                     </h3>
                     <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 leading-relaxed">
-                      {item.description}
+                      {t(`menu.${item.id}.d`)}
                     </p>
                   </div>
 
                   <div className="flex items-center justify-between mt-5 pt-4 border-t border-zinc-100 dark:border-zinc-800/60">
-                    <span className="text-base font-serif font-bold text-zinc-900 dark:text-zinc-100">
+                    <span className="text-base font-serif font-bold text-zinc-900 dark:text-zinc-100 num" data-ltr>
                       ${item.price.toFixed(2)}
                     </span>
                     <button
@@ -296,12 +264,12 @@ export default function MenuSection() {
                       {isAdded ? (
                         <>
                           <Check className="w-3.5 h-3.5" />
-                          <span>Added</span>
+                          <span>{t("menu.added")}</span>
                         </>
                       ) : (
                         <>
                           <Plus className="w-3.5 h-3.5" />
-                          <span>Add</span>
+                          <span>{t("menu.add")}</span>
                         </>
                       )}
                     </button>
