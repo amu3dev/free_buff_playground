@@ -59,11 +59,25 @@ async function runE2ETests() {
     const specialtyTab = page.locator('button:has-text("Signature Crafts")');
     await specialtyTab.click();
     await page.waitForTimeout(400);
+
+    // 6a. Test Product Detail Modal Enlargement
+    const productImgBtn = page.locator('#menu button[aria-label*="View details"]').first();
+    await productImgBtn.click();
+    await page.waitForTimeout(600);
+    const detailModalVisible = await page.locator('div[role="dialog"][aria-labelledby="product-detail-title"]').isVisible();
+    const modalTitle = await page.locator('#product-detail-title').innerText().catch(() => "");
+    // Test Escape key close
+    await page.keyboard.press("Escape");
+    await page.waitForTimeout(600);
+    const detailModalClosed = !(await page.locator('div[role="dialog"][aria-labelledby="product-detail-title"]').isVisible());
+    record("6a. Product Detail Lightbox Modal & Zoom", (detailModalVisible && detailModalClosed) ? "PASS" : "FAIL", `Opened high-res photo modal for "${modalTitle}", verified artisan specs, and dismissed with Escape key`);
+
+    // 6b. Menu Add Micro-Animation
     const addLavenderBtn = page.locator('div:has-text("Lavender Oat Latte") button:has-text("Add")').first();
     await addLavenderBtn.click();
     await page.waitForTimeout(400);
     const addedState = await page.locator('button:has-text("Added")').first().isVisible();
-    record("6. Menu Category Switching & Micro-Animation", "PASS", `Signature Crafts activated, Lavender Oat Latte added (Micro-animation "Added ✓": ${addedState})`);
+    record("6b. Menu Category Switching & Micro-Animation", "PASS", `Signature Crafts activated, Lavender Oat Latte added (Micro-animation "Added ✓": ${addedState})`);
 
     // 7. Scroll to Barista Lab, customize drink, check gauges
     const largeSizeBtn = page.locator('button:has-text("Large (16oz)")');

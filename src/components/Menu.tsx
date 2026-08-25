@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Plus, Check } from "lucide-react";
+import { Plus, Check, Maximize2 } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { useI18n } from "@/lib/i18n";
+import ProductDetailModal, { ProductDetail } from "@/components/ProductDetailModal";
 
 type Category = "espresso" | "cold" | "specialty" | "pastries";
 
@@ -15,6 +16,8 @@ interface MenuItem {
   image: string;
   category: Category;
   tags?: string[];
+  origin?: string;
+  roastLevel?: string;
 }
 
 const categories: { key: Category; labelKey: string; emoji: string }[] = [
@@ -153,6 +156,7 @@ const menuItems: MenuItem[] = [
 export default function MenuSection() {
   const [active, setActive] = useState<Category>("espresso");
   const [addedItems, setAddedItems] = useState<Record<string, boolean>>({});
+  const [previewProduct, setPreviewProduct] = useState<ProductDetail | null>(null);
   const { addItem } = useCart();
   const { t, lang } = useI18n();
 
@@ -166,6 +170,19 @@ export default function MenuSection() {
     setTimeout(() => {
       setAddedItems((prev) => ({ ...prev, [item.id]: false }));
     }, 1200);
+  };
+
+  const openProductPreview = (item: MenuItem) => {
+    setPreviewProduct({
+      id: item.id,
+      name: t(`menu.${item.id}.n`),
+      description: t(`menu.${item.id}.d`),
+      price: item.price,
+      image: item.image,
+      tags: item.tags,
+      origin: item.origin,
+      roastLevel: item.roastLevel,
+    });
   };
 
   const filtered = menuItems.filter((item) => item.category === active);
@@ -225,15 +242,26 @@ export default function MenuSection() {
                 >
                   <div>
                     <div className="flex items-start justify-between gap-3">
-                      <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-zinc-200/80 dark:border-zinc-700/80 group-hover:scale-105 transition-transform duration-300 shadow-xs">
+                      {/* Clickable Image to Enlarge */}
+                      <button
+                        type="button"
+                        onClick={() => openProductPreview(item)}
+                        className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-zinc-200/80 dark:border-zinc-700/80 group/img cursor-pointer shadow-xs focus-visible:ring-2 focus-visible:ring-amber-500"
+                        aria-label={`View details of ${t(`menu.${item.id}.n`)}`}
+                        title={lang === "ar" ? "انقر لتكبير الصورة والتفاصيل" : "Click to view full photo & details"}
+                      >
                         <Image
                           src={item.image}
                           alt={t(`menu.${item.id}.n`)}
                           fill
-                          sizes="56px"
-                          className="object-cover"
+                          sizes="64px"
+                          className="object-cover group-hover/img:scale-110 transition-transform duration-300"
                         />
-                      </div>
+                        <div className="absolute inset-0 bg-black/35 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center text-white">
+                          <Maximize2 className="w-4 h-4 drop-shadow" />
+                        </div>
+                      </button>
+
                       {item.tags && item.tags.length > 0 && (
                         <div className="flex flex-wrap gap-1">
                           {item.tags.map((tag) => (
@@ -248,7 +276,10 @@ export default function MenuSection() {
                       )}
                     </div>
 
-                    <h3 className={`text-base font-serif font-bold text-zinc-900 dark:text-zinc-100 mt-4 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+                    <h3 
+                      onClick={() => openProductPreview(item)}
+                      className={`text-base font-serif font-bold text-zinc-900 dark:text-zinc-100 mt-4 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors cursor-pointer ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}
+                    >
                       {t(`menu.${item.id}.n`)}
                     </h3>
                     <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 leading-relaxed">
@@ -287,6 +318,12 @@ export default function MenuSection() {
           </AnimatePresence>
         </div>
       </div>
+
+      {/* High-Resolution Product Detail Modal */}
+      <ProductDetailModal
+        product={previewProduct}
+        onClose={() => setPreviewProduct(null)}
+      />
     </section>
   );
 }

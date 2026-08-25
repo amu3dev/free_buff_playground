@@ -2,23 +2,22 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ArrowRight, Sparkles, Plus, Check } from "lucide-react";
+import { ArrowRight, Sparkles, Plus, Check, Maximize2 } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
 import { useI18n } from "@/lib/i18n";
+import ProductDetailModal, { ProductDetail } from "@/components/ProductDetailModal";
 
 export default function Hero() {
   const { addItem, openCart } = useCart();
-  const [bundleAdded, setBundleAdded] = useState(false);
   const { t, tf, lang } = useI18n();
+  const [bundleAdded, setBundleAdded] = useState(false);
+  const [previewProduct, setPreviewProduct] = useState<ProductDetail | null>(null);
 
   const handleOrderFeatured = () => {
     addItem({
       id: "featured-latte-of-the-day",
-      name:
-        lang === "ar"
-          ? "لاتيه الكراميل والبندق (مشروب اليوم)"
-          : "Caramel Hazelnut Latte (Daily Feature)",
+      name: t("hero.fName"),
       price: 5.5,
       customizations:
         lang === "ar"
@@ -33,12 +32,12 @@ export default function Hero() {
       id: "daily-morning-pairing",
       name:
         lang === "ar"
-          ? "طقوس الصباح (لاتيه + كرواسون)"
+          ? "وجبة قهوة الصباح (لاتيه + كرواسون)"
           : "Morning Ritual Pairing (Latte + Croissant)",
       price: 7.5,
       customizations:
         lang === "ar"
-          ? "لاتيه الكراميل والبندق (12oz) + كرواسون بالزبدة"
+          ? "كراميل هازلنوت لاتيه + كرواسون بالزبدة"
           : "Caramel Hazelnut Latte (12oz) + Butter Croissant",
     });
     setBundleAdded(true);
@@ -48,10 +47,23 @@ export default function Hero() {
     }, 600);
   };
 
+  const openFeaturedPreview = () => {
+    setPreviewProduct({
+      id: "featured-latte-of-the-day",
+      name: t("hero.fName"),
+      description: t("hero.fDesc"),
+      price: 5.5,
+      image: "/images/hero-latte.jpg",
+      tags: ["houseBlend", "signature"],
+      origin: lang === "ar" ? "إثيوبيا وسومطرة سبيشالتي" : "Ethiopia & Sumatra Direct Blend",
+      roastLevel: lang === "ar" ? "تحميص وسطي عطري" : "Aromatic Medium Roast",
+    });
+  };
+
   const stats = [
-    { value: "14+", label: t("hero.s1l") },
-    { value: "48h", label: t("hero.s2l") },
-    { value: "98.4%", label: t("hero.s3l") },
+    { value: t("hero.s1v"), label: t("hero.s1l") },
+    { value: t("hero.s2v"), label: t("hero.s2l") },
+    { value: t("hero.s3v"), label: t("hero.s3l") },
   ];
 
   return (
@@ -76,9 +88,9 @@ export default function Hero() {
             <span>{t("hero.badge")}</span>
           </div>
 
-          <h1 className={`text-4xl sm:text-6xl lg:text-7xl font-serif font-bold text-white leading-[1.08] ${lang === "ar" ? "tracking-normal leading-[1.3]" : "tracking-tight"}`}>
+          <h1 className={`text-4xl sm:text-6xl lg:text-7xl font-serif font-bold text-white leading-[1.08] tracking-tight ${lang === "ar" ? "font-[family-name:var(--font-amiri)] leading-[1.2]" : ""}`}>
             {t("hero.t1")}{" "}
-            <span className={`text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-300 font-serif ${lang === "ar" ? "" : "italic"}`}>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-300 italic font-serif">
               {t("hero.t2")}
             </span>{" "}
             {t("hero.t3")}
@@ -140,22 +152,34 @@ export default function Hero() {
                 <span className="text-lg font-serif font-bold text-white num" data-ltr>$5.50</span>
               </div>
 
+              {/* Clickable Image to Enlarge */}
               <div className="my-6 flex justify-center">
-                <div className="relative w-36 h-36 rounded-2xl overflow-hidden border border-zinc-700/80 shadow-lg group">
+                <button
+                  type="button"
+                  onClick={openFeaturedPreview}
+                  className="relative w-36 h-36 rounded-2xl overflow-hidden border border-zinc-700/80 shadow-lg group/img cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-500"
+                  aria-label={`View details of ${t("hero.fName")}`}
+                  title={lang === "ar" ? "انقر لتكبير الصورة والتفاصيل" : "Click to view full photo & details"}
+                >
                   <Image
                     src="/images/hero-latte.jpg"
                     alt={t("hero.fName")}
                     fill
                     sizes="144px"
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="object-cover group-hover/img:scale-105 transition-transform duration-300"
                     priority
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-                </div>
+                  <div className="absolute inset-0 bg-black/35 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center text-white">
+                    <Maximize2 className="w-5 h-5 drop-shadow" />
+                  </div>
+                </button>
               </div>
 
               <div className="text-center">
-                <h3 className={`text-xl font-serif font-bold text-white ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+                <h3
+                  onClick={openFeaturedPreview}
+                  className={`text-xl font-serif font-bold text-white cursor-pointer hover:text-amber-400 transition-colors ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}
+                >
                   {t("hero.fName")}
                 </h3>
                 <p className="text-xs text-zinc-400 mt-1.5 leading-relaxed">
@@ -211,6 +235,12 @@ export default function Hero() {
           </div>
         </motion.div>
       </div>
+
+      {/* High-Resolution Product Detail Modal */}
+      <ProductDetailModal
+        product={previewProduct}
+        onClose={() => setPreviewProduct(null)}
+      />
     </section>
   );
 }
