@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Gift, Crown, Check, Sparkles } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { useI18n } from "@/lib/i18n";
@@ -14,9 +15,9 @@ const tiers = [
 ];
 
 const rewards = [
-  { id: "reward-1", nameKey: "rw.1.n", points: 50, discountValue: 1.0, emoji: "☕" },
-  { id: "reward-2", nameKey: "rw.2.n", points: 100, discountValue: 3.5, emoji: "🥐" },
-  { id: "reward-3", nameKey: "rw.3.n", points: 200, discountValue: 6.5, emoji: "🥤" },
+  { id: "reward-1", nameKey: "rw.1.n", points: 50, discountValue: 1.0, image: "/images/espresso.jpg" },
+  { id: "reward-2", nameKey: "rw.2.n", points: 100, discountValue: 3.5, image: "/images/croissant.jpg" },
+  { id: "reward-3", nameKey: "rw.3.n", points: 200, discountValue: 6.5, image: "/images/lavender-latte.jpg" },
   { id: "reward-4", nameKey: "rw.4.n", points: 150, discountValue: 5.0, emoji: "🏷️" },
   { id: "reward-5", nameKey: "rw.5.n", points: 400, discountValue: 12.0, emoji: "🎒" },
 ];
@@ -180,8 +181,18 @@ export default function LoyaltyRewards() {
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-xl bg-white dark:bg-zinc-800 flex items-center justify-center text-xl border border-zinc-200 dark:border-zinc-700 shrink-0">
-                      {reward.emoji}
+                    <div className="relative w-11 h-11 rounded-xl bg-white dark:bg-zinc-800 overflow-hidden flex items-center justify-center text-xl border border-zinc-200 dark:border-zinc-700 shrink-0 shadow-xs">
+                      {reward.image ? (
+                        <Image
+                          src={reward.image}
+                          alt={t(reward.nameKey)}
+                          fill
+                          sizes="44px"
+                          className="object-cover"
+                        />
+                      ) : (
+                        <span>{reward.emoji}</span>
+                      )}
                     </div>
                     <div className="min-w-0">
                       <div className="font-semibold text-xs sm:text-sm text-zinc-900 dark:text-zinc-100">

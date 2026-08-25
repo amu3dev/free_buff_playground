@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import {
   X,
   Plus,
@@ -20,9 +21,9 @@ import { useCart, CartItem, AppliedReward } from "@/lib/cart-context";
 import { useI18n } from "@/lib/i18n";
 
 const quickPairings = [
-  { id: "pasty-1", price: 3.5, emoji: "🥐" },
-  { id: "pasty-3", price: 4.0, emoji: "🍥" },
-  { id: "pasty-4", price: 2.5, emoji: "🍪" },
+  { id: "pasty-1", price: 3.5, image: "/images/croissant.jpg" },
+  { id: "pasty-3", price: 4.0, image: "/images/cinnamon-roll.jpg" },
+  { id: "pasty-4", price: 2.5, image: "/images/almond-biscotti.jpg" },
 ];
 
 export default function CartDrawer() {
@@ -374,11 +375,17 @@ function CartReviewView({
                         price: snack.price,
                       })
                     }
-                    className="flex flex-col items-center text-center p-2.5 rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-900/60 hover:border-amber-500/50 hover:bg-white dark:hover:bg-zinc-800 transition-all cursor-pointer group focus-visible:ring-2 focus-visible:ring-amber-500"
+                    className="flex flex-col items-center text-center p-2 rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/70 dark:bg-zinc-900/60 hover:border-amber-500/50 hover:bg-white dark:hover:bg-zinc-800 transition-all cursor-pointer group focus-visible:ring-2 focus-visible:ring-amber-500"
                   >
-                    <span className="text-xl mb-1 group-hover:scale-110 transition-transform">
-                      {snack.emoji}
-                    </span>
+                    <div className="relative w-10 h-10 rounded-lg overflow-hidden mb-1.5 border border-zinc-200 dark:border-zinc-700">
+                      <Image
+                        src={snack.image}
+                        alt={t(`menu.${snack.id}.n`)}
+                        fill
+                        sizes="40px"
+                        className="object-cover group-hover:scale-110 transition-transform"
+                      />
+                    </div>
                     <span className="text-[11px] font-medium text-zinc-800 dark:text-zinc-200 truncate w-full">
                       {t(`menu.${snack.id}.n`)}
                     </span>

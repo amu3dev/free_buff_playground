@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { Plus, Check } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { useI18n } from "@/lib/i18n";
@@ -11,7 +12,7 @@ type Category = "espresso" | "cold" | "specialty" | "pastries";
 interface MenuItem {
   id: string;
   price: number;
-  emoji: string;
+  image: string;
   category: Category;
   tags?: string[];
 }
@@ -28,39 +29,39 @@ const menuItems: MenuItem[] = [
   {
     id: "espresso-1",
     price: 3.5,
-    emoji: "☕",
+    image: "/images/espresso.jpg",
     category: "espresso",
     tags: ["houseBlend"],
   },
   {
     id: "espresso-2",
     price: 5.0,
-    emoji: "☕",
+    image: "/images/cappuccino.jpg",
     category: "espresso",
     tags: ["popular"],
   },
   {
     id: "espresso-3",
     price: 5.5,
-    emoji: "🥛",
+    image: "/images/hero-latte.jpg",
     category: "espresso",
   },
   {
     id: "espresso-4",
     price: 5.5,
-    emoji: "☕",
+    image: "/images/hero-latte.jpg",
     category: "espresso",
   },
   {
     id: "espresso-5",
     price: 4.5,
-    emoji: "☕",
+    image: "/images/espresso.jpg",
     category: "espresso",
   },
   {
     id: "espresso-6",
     price: 4.0,
-    emoji: "☕",
+    image: "/images/espresso.jpg",
     category: "espresso",
   },
 
@@ -68,27 +69,27 @@ const menuItems: MenuItem[] = [
   {
     id: "cold-1",
     price: 5.0,
-    emoji: "🧊",
+    image: "/images/cold-brew.jpg",
     category: "cold",
     tags: ["slowSteeped"],
   },
   {
     id: "cold-2",
     price: 6.0,
-    emoji: "🧊",
+    image: "/images/iced-caramel-latte.jpg",
     category: "cold",
     tags: ["sweet"],
   },
   {
     id: "cold-3",
     price: 6.0,
-    emoji: "🧊",
+    image: "/images/cold-brew.jpg",
     category: "cold",
   },
   {
     id: "cold-4",
     price: 6.0,
-    emoji: "🧊",
+    image: "/images/cold-brew.jpg",
     category: "cold",
     tags: ["onTap"],
   },
@@ -97,26 +98,26 @@ const menuItems: MenuItem[] = [
   {
     id: "spec-1",
     price: 6.5,
-    emoji: "💜",
+    image: "/images/lavender-latte.jpg",
     category: "specialty",
     tags: ["signature"],
   },
   {
     id: "spec-2",
     price: 6.5,
-    emoji: "🍁",
+    image: "/images/hero-latte.jpg",
     category: "specialty",
   },
   {
     id: "spec-3",
     price: 6.0,
-    emoji: "🍯",
+    image: "/images/hero-latte.jpg",
     category: "specialty",
   },
   {
     id: "spec-4",
     price: 7.0,
-    emoji: "🍫",
+    image: "/images/iced-caramel-latte.jpg",
     category: "specialty",
     tags: ["indulgent"],
   },
@@ -125,26 +126,26 @@ const menuItems: MenuItem[] = [
   {
     id: "pasty-1",
     price: 3.5,
-    emoji: "🥐",
+    image: "/images/croissant.jpg",
     category: "pastries",
     tags: ["freshBaked"],
   },
   {
     id: "pasty-2",
     price: 3.5,
-    emoji: "🧁",
+    image: "/images/blueberry-muffin.jpg",
     category: "pastries",
   },
   {
     id: "pasty-3",
     price: 4.0,
-    emoji: "🍥",
+    image: "/images/cinnamon-roll.jpg",
     category: "pastries",
   },
   {
     id: "pasty-4",
     price: 2.5,
-    emoji: "🍪",
+    image: "/images/almond-biscotti.jpg",
     category: "pastries",
   },
 ];
@@ -224,8 +225,14 @@ export default function MenuSection() {
                 >
                   <div>
                     <div className="flex items-start justify-between gap-3">
-                      <div className="w-11 h-11 rounded-xl bg-zinc-100 dark:bg-zinc-800/80 flex items-center justify-center text-2xl border border-zinc-200/60 dark:border-zinc-700/60 group-hover:scale-105 transition-transform">
-                        {item.emoji}
+                      <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-zinc-200/80 dark:border-zinc-700/80 group-hover:scale-105 transition-transform duration-300 shadow-xs">
+                        <Image
+                          src={item.image}
+                          alt={t(`menu.${item.id}.n`)}
+                          fill
+                          sizes="56px"
+                          className="object-cover"
+                        />
                       </div>
                       {item.tags && item.tags.length > 0 && (
                         <div className="flex flex-wrap gap-1">

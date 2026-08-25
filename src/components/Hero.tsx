@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { ArrowRight, Sparkles, Plus, Check } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
@@ -140,8 +141,16 @@ export default function Hero() {
               </div>
 
               <div className="my-6 flex justify-center">
-                <div className="w-28 h-28 rounded-2xl bg-gradient-to-b from-zinc-800 to-zinc-900/80 flex items-center justify-center border border-zinc-700/80 shadow-inner">
-                  <div className="text-5xl select-none">☕</div>
+                <div className="relative w-36 h-36 rounded-2xl overflow-hidden border border-zinc-700/80 shadow-lg group">
+                  <Image
+                    src="/images/hero-latte.jpg"
+                    alt={t("hero.fName")}
+                    fill
+                    sizes="144px"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                 </div>
               </div>
 
@@ -165,10 +174,18 @@ export default function Hero() {
                   {/* Morning Ritual Pairing Bundle */}
                   <button
                     onClick={handleOrderPairingBundle}
-                    className="w-full flex items-center justify-between px-4 py-2.5 rounded-2xl bg-zinc-800/80 hover:bg-zinc-800 border border-zinc-700/60 hover:border-amber-500/40 text-start transition-all cursor-pointer group"
+                    className="w-full flex items-center justify-between px-3.5 py-2 rounded-2xl bg-zinc-800/80 hover:bg-zinc-800 border border-zinc-700/60 hover:border-amber-500/40 text-start transition-all cursor-pointer group"
                   >
                     <div className="flex items-center gap-2.5">
-                      <span className="text-lg">🥐</span>
+                      <div className="relative w-9 h-9 rounded-lg overflow-hidden shrink-0 border border-zinc-700">
+                        <Image
+                          src="/images/croissant.jpg"
+                          alt="Butter Croissant"
+                          fill
+                          sizes="36px"
+                          className="object-cover group-hover:scale-110 transition-transform"
+                        />
+                      </div>
                       <div className="text-start">
                         <div className="text-xs font-semibold text-zinc-200 group-hover:text-amber-400 transition-colors">
                           {lang === "ar" ? "أضف كرواسون بالزبدة" : "Pair with Butter Croissant"}

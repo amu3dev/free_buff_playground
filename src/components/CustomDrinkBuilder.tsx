@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Check, ShoppingCart, Sliders } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { useI18n } from "@/lib/i18n";
@@ -15,11 +16,11 @@ interface Option {
   price: number;
 }
 
-const drinkTypes: { id: DrinkType; labelKey: string; emoji: string; basePrice: number; defaultProfile: { intensity: number; sweetness: number; creaminess: number } }[] = [
-  { id: "latte", labelKey: "drink.latte", emoji: "🥛", basePrice: 4.5, defaultProfile: { intensity: 60, sweetness: 40, creaminess: 85 } },
-  { id: "cappuccino", labelKey: "drink.cappuccino", emoji: "☕", basePrice: 4.5, defaultProfile: { intensity: 75, sweetness: 30, creaminess: 70 } },
-  { id: "americano", labelKey: "drink.americano", emoji: "☕", basePrice: 3.5, defaultProfile: { intensity: 85, sweetness: 10, creaminess: 10 } },
-  { id: "cold-brew", labelKey: "drink.coldBrew", emoji: "🧊", basePrice: 4.0, defaultProfile: { intensity: 80, sweetness: 20, creaminess: 15 } },
+const drinkTypes: { id: DrinkType; labelKey: string; image: string; basePrice: number; defaultProfile: { intensity: number; sweetness: number; creaminess: number } }[] = [
+  { id: "latte", labelKey: "drink.latte", image: "/images/hero-latte.jpg", basePrice: 4.5, defaultProfile: { intensity: 60, sweetness: 40, creaminess: 85 } },
+  { id: "cappuccino", labelKey: "drink.cappuccino", image: "/images/cappuccino.jpg", basePrice: 4.5, defaultProfile: { intensity: 75, sweetness: 30, creaminess: 70 } },
+  { id: "americano", labelKey: "drink.americano", image: "/images/espresso.jpg", basePrice: 3.5, defaultProfile: { intensity: 85, sweetness: 10, creaminess: 10 } },
+  { id: "cold-brew", labelKey: "drink.coldBrew", image: "/images/cold-brew.jpg", basePrice: 4.0, defaultProfile: { intensity: 80, sweetness: 20, creaminess: 15 } },
 ];
 
 const sizes: Option[] = [
@@ -141,13 +142,21 @@ export default function CustomDrinkBuilder() {
                 <button
                   key={d.id}
                   onClick={() => setDrink(d.id)}
-                  className={`flex flex-col items-center gap-1 p-4 rounded-2xl border text-sm font-medium transition-all cursor-pointer ${
+                  className={`flex flex-col items-center gap-1.5 p-3 sm:p-3.5 rounded-2xl border text-sm font-medium transition-all cursor-pointer group ${
                     drink === d.id
                       ? "border-amber-500 bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-sm ring-2 ring-amber-500/20"
                       : "border-zinc-200 dark:border-zinc-800 bg-white/60 dark:bg-zinc-900 hover:border-zinc-300 dark:hover:border-zinc-700 text-zinc-600 dark:text-zinc-300"
                   }`}
                 >
-                  <span className="text-2xl mb-1">{d.emoji}</span>
+                  <div className="relative w-12 h-12 rounded-xl overflow-hidden mb-1 border border-zinc-200 dark:border-zinc-700 group-hover:scale-105 transition-transform duration-200 shadow-xs">
+                    <Image
+                      src={d.image}
+                      alt={t(d.labelKey)}
+                      fill
+                      sizes="48px"
+                      className="object-cover"
+                    />
+                  </div>
                   <span className="font-semibold text-xs sm:text-sm">{t(d.labelKey)}</span>
                   <span className="text-[11px] text-zinc-400 font-mono num" data-ltr>
                     ${d.basePrice.toFixed(2)}
