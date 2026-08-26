@@ -12,7 +12,7 @@ import {
 
 export type Lang = "en" | "ar";
 
-const LANG_STORAGE_KEY = "brew_and_bean_lang";
+const LANG_STORAGE_KEY = "origin_and_oak_lang";
 
 /* ------------------------------------------------------------------ */
 /* English dictionary                                                  */
@@ -35,7 +35,7 @@ const en: Record<string, string> = {
   "hero.t2": "exceptional",
   "hero.t3": "coffee.",
   "hero.desc":
-    "From direct-trade Ethiopian natural pour-overs to velvety microfoam flat whites, every cup at Brew & Bean is roasted in micro-batches to highlight terroir and nuance.",
+    "From direct-trade Ethiopian natural pour-overs to velvety microfoam flat whites, every cup at Origin & Oak is roasted in micro-batches to highlight terroir and nuance.",
   "hero.cta1": "Explore Our Menu",
   "hero.cta2": "Custom Barista Lab",
   "hero.s1v": "14+",
@@ -199,7 +199,7 @@ const en: Record<string, string> = {
   "rw.2.n": "Free Daily Bakery Croissant",
   "rw.3.n": "Complimentary Artisan Drink (Any Size)",
   "rw.4.n": "$5 Off Any In-Cafe Order",
-  "rw.5.n": "Brew & Bean Canvas Roastery Tote",
+  "rw.5.n": "Origin & Oak Canvas Roastery Tote",
   "r.line": "{points} pts • Value ${value}",
   "r.redeem": "Redeem",
   "r.applied": "Applied",
@@ -209,15 +209,15 @@ const en: Record<string, string> = {
   "s.kicker": "Our Roasteries",
   "s.title": "Neighborhood Cafes",
   "s.sub": "Spacious seating, natural light, and freshly roasted espresso in every neighborhood.",
-  "st.1.name": "Brew & Bean — Downtown Flagship",
+  "st.1.name": "Origin & Oak — Downtown Flagship",
   "st.1.hood": "Downtown Core",
   "st.1.address": "123 Main Street, Suite 100",
   "st.1.hours": "Mon–Fri: 6:00 AM – 9:00 PM | Sat–Sun: 7:00 AM – 8:00 PM",
-  "st.2.name": "Brew & Bean — Riverside Roastery",
+  "st.2.name": "Origin & Oak — Riverside Roastery",
   "st.2.hood": "Waterfront Arts District",
   "st.2.address": "456 River Road",
   "st.2.hours": "Mon–Fri: 6:30 AM – 8:00 PM | Sat–Sun: 7:30 AM – 7:00 PM",
-  "st.3.name": "Brew & Bean — University Commons",
+  "st.3.name": "Origin & Oak — University Commons",
   "st.3.hood": "Campus & Tech District",
   "st.3.address": "789 College Ave",
   "st.3.hours": "Mon–Fri: 5:30 AM – 10:00 PM | Sat–Sun: 6:00 AM – 9:00 PM",
@@ -253,7 +253,7 @@ const en: Record<string, string> = {
   "fs.faq": "Order FAQ",
   "fs.perks": "Brew Club Perks",
   "fs.find": "Find a Cafe",
-  "f.legal": "© 2026 Brew & Bean Coffee Roasters. All rights reserved.",
+  "f.legal": "© 2026 Origin & Oak Coffee Roasters. All rights reserved.",
   "f.roasted": "Roasted with care",
   "f.location": "in Portland & Austin",
 };
@@ -279,7 +279,7 @@ const ar: Record<string, string> = {
   "hero.t2": "القهوة",
   "hero.t3": "الاستثنائية.",
   "hero.desc":
-    "من القهوة التركية الإثيوبية المباشرة إلى الفلات وايت الحريرية، كل كوب في برو آند بين يُحمَّص بدفعات صغيرة لإبراز أصل الحبة ونكهتها الفريدة.",
+    "من القهوة الإثيوبية المعالجة طبيعياً إلى الفلات وايت الحريرية، كل كوب في أوريجن آند أوك يُحمَّص بدفعات صغيرة لإبراز أصل الحبة ونكهتها الفريدة.",
   "hero.cta1": "تصفح قائمتنا",
   "hero.cta2": "مختبر الباريستا",
   "hero.s1l": "منشأ مباشر",
@@ -438,7 +438,7 @@ const ar: Record<string, string> = {
   "rw.2.n": "كرواسون مخبوزات مجاني يومياً",
   "rw.3.n": "مشروب حرفي مجاني (بأي حجم)",
   "rw.4.n": "خصم ٥$ على أي طلب داخل المقهى",
-  "rw.5.n": "حقيبة محمصة برو آند بين القماشية",
+  "rw.5.n": "حقيبة محمصة أوريجن آند أوك القماشية",
   "r.line": "{points} نقطة • بقيمة ${value}",
   "r.redeem": "استبدل",
   "r.applied": "مُطبَّقة",
@@ -448,15 +448,15 @@ const ar: Record<string, string> = {
   "s.kicker": "محمصاتنا",
   "s.title": "مقاهي الحي",
   "s.sub": "جلوس واسع، إضاءة طبيعية، وإسبريسو محمّص طازجاً في كل حي.",
-  "st.1.name": "برو آند بين — فرع وسط المدينة الرئيسي",
+  "st.1.name": "أوريجن آند أوك — فرع وسط المدينة الرئيسي",
   "st.1.hood": "قلب المدينة",
   "st.1.address": "شارع الرئيسي 123، جناح 100",
   "st.1.hours": "الاثنين–الجمعة: 6 ص – 9 م | السبت–الأحد: 7 ص – 8 م",
-  "st.2.name": "برو آند بين — محمصة الريف",
+  "st.2.name": "أوريجن آند أوك — محمصة الواجهة المائية",
   "st.2.hood": "حي الفنون الواجهة المائية",
   "st.2.address": "طريق النهر 456",
   "st.2.hours": "الاثنين–الجمعة: 6:30 ص – 8 م | السبت–الأحد: 7:30 ص – 7 م",
-  "st.3.name": "برو آند بين — المجمع الجامعي",
+  "st.3.name": "أوريجن آند أوك — مجمع الجامعة والتقنية",
   "st.3.hood": "حي الجامعة والتقنية",
   "st.3.address": "شارع الكلية 789",
   "st.3.hours": "الاثنين–الجمعة: 5:30 ص – 10 م | السبت–الأحد: 6 ص – 9 م",
@@ -492,7 +492,7 @@ const ar: Record<string, string> = {
   "fs.faq": "أسئلة الطلب الشائعة",
   "fs.perks": "مزايا نادي التخمير",
   "fs.find": "اعثر على مقهى",
-  "f.legal": "© 2026 برو آند بين للمحمصات. جميع الحقوق محفوظة.",
+  "f.legal": "© 2026 محمصة أوريجن آند أوك. جميع الحقوق محفوظة.",
   "f.roasted": "محمّصة بعناية",
   "f.location": "في بورتلاند وأوستن",
 };

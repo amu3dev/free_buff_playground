@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ShoppingCart, Sun, Moon, Coffee, Languages } from "lucide-react";
+import Image from "next/image";
+import { Menu, X, ShoppingCart, Sun, Moon, Languages } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { useTheme } from "@/lib/theme-context";
 import { useI18n } from "@/lib/i18n";
@@ -29,12 +30,18 @@ export default function Navbar() {
             href="#"
             className="flex items-center gap-2.5 text-zinc-900 dark:text-zinc-50 group transition-transform hover:opacity-90"
           >
-            <div className="w-9 h-9 rounded-xl bg-zinc-900 dark:bg-zinc-100 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform">
-              <Coffee className="w-5 h-5 text-amber-400 dark:text-zinc-900" />
+            <div className="relative w-9 h-9 rounded-xl overflow-hidden shadow-xs group-hover:scale-105 transition-transform border border-amber-500/40 bg-zinc-950 shrink-0">
+              <Image
+                src="/images/origin-and-oak-logo.jpg"
+                alt="Origin & Oak Emblem"
+                fill
+                sizes="36px"
+                className="object-cover scale-150"
+              />
             </div>
             <div className="flex flex-col">
               <span className={`text-lg font-serif font-bold tracking-tight leading-none ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
-                Brew &amp; Bean
+                {lang === "ar" ? "أوريجن آند أوك" : "Origin & Oak"}
               </span>
               <span className={`text-[10px] font-mono tracking-widest text-zinc-400 dark:text-zinc-500 mt-0.5 ${lang === "ar" ? "normal-case" : "uppercase"}`}>
                 {t("nav.brandSub")}

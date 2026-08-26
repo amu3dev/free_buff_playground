@@ -27,10 +27,10 @@ async function runE2ETests() {
     const title = await page.title();
     const heroHeading = await page.locator("h1").innerText();
     const brandName = await page.locator("nav a span.font-serif").first().innerText();
-    if (title.includes("Brew & Bean") && heroHeading.includes("Pursuing the art") && brandName.includes("Brew & Bean")) {
+    if (title.includes("Origin & Oak") && heroHeading.includes("Pursuing the art") && brandName.includes("Origin & Oak")) {
       record("2. Title, Navbar & Hero Section", "PASS", `Title: "${title}", Brand: "${brandName}", Hero: "${heroHeading.replace(/\s+/g, " ").trim()}"`);
     } else {
-      record("2. Title, Navbar & Hero Section", "FAIL", "Header elements missing");
+      record("2. Title, Navbar & Hero Section", "FAIL", `Header elements missing (Title: "${title}", Brand: "${brandName}")`);
     }
 
     // 3. Toggle Dark/Light theme mode

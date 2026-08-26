@@ -41,9 +41,9 @@ const amiri = Amiri({
 });
 
 export const metadata: Metadata = {
-  title: "Brew & Bean — Artisan Coffee Shop | برو آند بين",
+  title: "Origin & Oak — Specialty Coffee Roasters | أوريجن آند أوك",
   description:
-    "Crafted with passion, served with love. Explore our handcrafted espresso drinks, cold brews, specialty beverages, and fresh pastries.",
+    "Single-origin specialty coffee roasters & craft cafe. Small-batch artisan roast, interactive barista drink lab, and freshly baked pastries.",
 };
 
 export default function RootLayout({
