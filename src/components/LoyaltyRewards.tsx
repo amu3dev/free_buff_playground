@@ -67,7 +67,7 @@ export default function LoyaltyRewards() {
           <span className={`text-xs font-mono font-semibold text-amber-600 dark:text-amber-400 mb-3 inline-block ${lang === "ar" ? "" : "tracking-widest uppercase"}`}>
             {t("r.kicker")}
           </span>
-          <h2 className={`text-3xl sm:text-5xl font-serif font-bold text-zinc-900 dark:text-zinc-50 ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-zinc-900 dark:text-zinc-50">
             {t("r.title")}
           </h2>
           <p className="mt-3 text-zinc-600 dark:text-zinc-400 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
@@ -86,7 +86,7 @@ export default function LoyaltyRewards() {
             <div className="flex flex-wrap items-center justify-between gap-4 mb-5">
               <div className="flex items-center gap-2">
                 <Crown className="w-5 h-5 text-amber-400" />
-                <span className={`text-xs font-mono font-semibold text-amber-300 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+                <span className={`text-xs font-mono font-semibold text-amber-300 ${lang === "ar" ? "normal-case tracking-normal" : "uppercase tracking-wider"}`}>
                   {currentTier.emoji} {t(`tier.${currentTier.key}`)}
                 </span>
               </div>
@@ -99,7 +99,7 @@ export default function LoyaltyRewards() {
               <div className="text-4xl sm:text-6xl font-serif font-bold tracking-tight text-white num" data-ltr>
                 {points}
               </div>
-              <span className={`text-xs font-mono text-amber-400 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+              <span className={`text-xs font-mono text-amber-400 ${lang === "ar" ? "normal-case tracking-normal" : "uppercase tracking-wider"}`}>
                 {t("r.points")}
               </span>
             </div>
@@ -143,7 +143,7 @@ export default function LoyaltyRewards() {
                 }`}
               >
                 <div className="text-2xl mb-1">{tier.emoji}</div>
-                <div className={`text-sm font-serif font-bold text-zinc-900 dark:text-zinc-100 ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+                <div className="text-sm font-serif font-bold text-zinc-900 dark:text-zinc-100">
                   {t(`tier.${tier.key}`)}
                 </div>
                 <div className="text-[11px] font-mono text-amber-600 dark:text-amber-400 mt-0.5 num" data-ltr>
@@ -157,11 +157,11 @@ export default function LoyaltyRewards() {
         {/* Claimable Perks */}
         <div className="bg-white dark:bg-zinc-900 rounded-3xl p-6 sm:p-8 border border-zinc-200 dark:border-zinc-800 shadow-xs">
           <div className="flex items-center justify-between mb-6 gap-2">
-            <h3 className={`text-base font-serif font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2 ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+            <h3 className="text-base font-serif font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
               <Gift className="w-4 h-4 text-amber-500 shrink-0 rtl:-scale-x-100" />
               {t("r.perksT")}
             </h3>
-            <span className={`text-[11px] font-mono text-zinc-400 text-end ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : ""}`}>
+            <span className={`text-[11px] font-mono text-zinc-400 text-end ${lang === "ar" ? "normal-case tracking-normal" : ""}`}>
               {t("r.auto")}
             </span>
           </div>
@@ -198,7 +198,7 @@ export default function LoyaltyRewards() {
                       <div className="font-semibold text-xs sm:text-sm text-zinc-900 dark:text-zinc-100">
                         {t(reward.nameKey)}
                       </div>
-                      <div className={`text-[11px] text-amber-600 dark:text-amber-400 font-mono ${lang === "ar" ? "font-[family-name:var(--font-cairo)]" : ""}`}>
+                      <div className="text-[11px] text-amber-600 dark:text-amber-400 font-mono">
                         {tf("r.line", {
                           points: reward.points,
                           value: reward.discountValue.toFixed(2),

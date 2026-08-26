@@ -1,6 +1,7 @@
 "use client";
 
-import { Coffee, Globe, AtSign, Hash, Heart } from "lucide-react";
+import Image from "next/image";
+import { Globe, AtSign, Hash, Heart } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 export default function Footer() {
@@ -40,11 +41,17 @@ export default function Footer() {
           {/* Brand Column */}
           <div>
             <a href="#" className="flex items-center gap-2.5 text-white">
-              <div className="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center border border-zinc-800">
-                <Coffee className="w-4 h-4 text-amber-400" />
+              <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-amber-500/40 bg-zinc-900 shrink-0">
+                <Image
+                  src="/images/origin-and-oak-logo.jpg"
+                  alt="Origin & Oak Logo"
+                  fill
+                  sizes="32px"
+                  className="object-cover scale-150"
+                />
               </div>
-              <span className={`text-lg font-serif font-bold tracking-tight ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
-                Brew &amp; Bean
+              <span className="text-lg font-serif font-bold tracking-tight">
+                {lang === "ar" ? "أوريجن آند أوك" : "Origin & Oak"}
               </span>
             </a>
             <p className="mt-4 text-zinc-400 text-xs sm:text-sm leading-relaxed">
@@ -71,7 +78,7 @@ export default function Footer() {
             { titleKey: "f.col3", items: links.support },
           ].map((group) => (
             <div key={group.titleKey}>
-              <h3 className={`font-mono text-xs font-semibold text-zinc-200 mb-4 uppercase tracking-widest ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : ""}`}>
+              <h3 className={`font-mono text-xs font-semibold text-zinc-200 mb-4 ${lang === "ar" ? "normal-case tracking-normal" : "uppercase tracking-widest"}`}>
                 {t(group.titleKey)}
               </h3>
               <ul className="space-y-2.5">

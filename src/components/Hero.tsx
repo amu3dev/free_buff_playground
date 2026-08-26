@@ -88,7 +88,7 @@ export default function Hero() {
             <span>{t("hero.badge")}</span>
           </div>
 
-          <h1 className={`text-4xl sm:text-6xl lg:text-7xl font-serif font-bold text-white leading-[1.08] tracking-tight ${lang === "ar" ? "font-[family-name:var(--font-amiri)] leading-[1.2]" : ""}`}>
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-bold text-white leading-[1.08] tracking-tight">
             {t("hero.t1")}{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-300 italic font-serif">
               {t("hero.t2")}
@@ -178,7 +178,7 @@ export default function Hero() {
               <div className="text-center">
                 <h3
                   onClick={openFeaturedPreview}
-                  className={`text-xl font-serif font-bold text-white cursor-pointer hover:text-amber-400 transition-colors ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}
+                  className="text-xl font-serif font-bold text-white cursor-pointer hover:text-amber-400 transition-colors"
                 >
                   {t("hero.fName")}
                 </h3>

@@ -132,9 +132,7 @@ function ProductDetailDialog({ product, onClose }: { product: ProductDetail; onC
 
               <h3
                 id="product-detail-title"
-                className={`text-xl sm:text-2xl font-serif font-bold text-zinc-900 dark:text-zinc-100 ${
-                  lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""
-                }`}
+                className="text-xl sm:text-2xl font-serif font-bold text-zinc-900 dark:text-zinc-100"
               >
                 {product.name}
               </h3>

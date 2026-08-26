@@ -68,7 +68,7 @@ export default function StoreLocator() {
           <span className={`text-xs font-mono font-semibold text-amber-600 dark:text-amber-400 mb-3 inline-block ${lang === "ar" ? "" : "tracking-widest uppercase"}`}>
             {t("s.kicker")}
           </span>
-          <h2 className={`text-3xl sm:text-5xl font-serif font-bold text-zinc-900 dark:text-zinc-50 ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-zinc-900 dark:text-zinc-50">
             {t("s.title")}
           </h2>
           <p className="mt-3 text-zinc-600 dark:text-zinc-400 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
@@ -139,7 +139,7 @@ export default function StoreLocator() {
           {/* Active Card Pill on Map */}
           <div className="absolute bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:max-w-xs bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xl z-20">
             <div className="flex items-center justify-between gap-2">
-              <span className={`text-[10px] font-mono uppercase tracking-wider text-amber-600 dark:text-amber-400 font-semibold ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : ""}`}>
+              <span className={`text-[10px] font-mono uppercase tracking-wider text-amber-600 dark:text-amber-400 font-semibold ${lang === "ar" ? "normal-case tracking-normal" : ""}`}>
                 {t("s.selectedRoastery")}
               </span>
               <span className="flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium shrink-0">
@@ -147,10 +147,10 @@ export default function StoreLocator() {
                 {t("s.open")}
               </span>
             </div>
-            <h4 className={`font-serif font-bold text-zinc-900 dark:text-white text-xs sm:text-sm mt-1 ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+            <h4 className="font-serif font-bold text-zinc-900 dark:text-white text-xs sm:text-sm mt-1">
               {t(`st.${activeStore.id}.name`)}
             </h4>
-            <p className={`text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5 truncate ${lang === "ar" ? "font-[family-name:var(--font-cairo)]" : ""}`}>
+            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5 truncate">
               {t(`st.${activeStore.id}.address`)}
             </p>
           </div>
@@ -175,11 +175,11 @@ export default function StoreLocator() {
                 }`}
               >
                 <div className="flex items-center justify-between mb-2.5 gap-2">
-                  <span className={`text-[10px] font-mono font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : ""}`}>
+                  <span className={`text-[10px] font-mono font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider ${lang === "ar" ? "normal-case tracking-normal" : ""}`}>
                     {t(store.neighborhoodKey)}
                   </span>
                   {isSelected ? (
-                    <span className={`text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 font-semibold shrink-0 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : ""}`}>
+                    <span className={`text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 font-semibold shrink-0 ${lang === "ar" ? "normal-case tracking-normal" : ""}`}>
                       {t("s.selectedTag")}
                     </span>
                   ) : (
@@ -188,14 +188,14 @@ export default function StoreLocator() {
                         e.stopPropagation();
                         setSelectedStore(`store-${store.id}`);
                       }}
-                      className={`text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 transition-colors font-medium cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-500 shrink-0 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : ""}`}
+                      className={`text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-800 hover:bg-amber-500 hover:text-zinc-950 transition-colors font-medium cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-500 shrink-0 ${lang === "ar" ? "normal-case tracking-normal" : ""}`}
                     >
                       {t("menu.add")}
                     </button>
                   )}
                 </div>
 
-                <h3 className={`text-base font-serif font-bold text-zinc-900 dark:text-zinc-100 mb-3 ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+                <h3 className="text-base font-serif font-bold text-zinc-900 dark:text-zinc-100 mb-3">
                   {t(`st.${store.id}.name`)}
                 </h3>
 

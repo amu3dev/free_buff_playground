@@ -200,7 +200,7 @@ export default function MenuSection() {
           <span className={`text-xs font-mono font-semibold text-amber-600 dark:text-amber-400 mb-3 inline-block ${lang === "ar" ? "" : "tracking-widest uppercase"}`}>
             {t("menu.kicker")}
           </span>
-          <h2 className={`text-3xl sm:text-5xl font-serif font-bold text-zinc-900 dark:text-zinc-50 ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-zinc-900 dark:text-zinc-50">
             {t("menu.title")}
           </h2>
           <p className="mt-3 text-zinc-600 dark:text-zinc-400 text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
@@ -267,7 +267,7 @@ export default function MenuSection() {
                           {item.tags.map((tag) => (
                             <span
                               key={tag}
-                              className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/40 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "tracking-wider uppercase"}`}
+                              className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/40 ${lang === "ar" ? "normal-case tracking-normal" : "tracking-wider uppercase"}`}
                             >
                               {t(`tag.${tag}`)}
                             </span>
@@ -278,7 +278,7 @@ export default function MenuSection() {
 
                     <h3 
                       onClick={() => openProductPreview(item)}
-                      className={`text-base font-serif font-bold text-zinc-900 dark:text-zinc-100 mt-4 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors cursor-pointer ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}
+                      className="text-base font-serif font-bold text-zinc-900 dark:text-zinc-100 mt-4 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors cursor-pointer"
                     >
                       {t(`menu.${item.id}.n`)}
                     </h3>

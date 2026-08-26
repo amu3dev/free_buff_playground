@@ -40,7 +40,7 @@ export default function Navbar() {
               />
             </div>
             <div className="flex flex-col">
-              <span className={`text-lg font-serif font-bold tracking-tight leading-none ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+              <span className="text-lg font-serif font-bold tracking-tight leading-none">
                 {lang === "ar" ? "أوريجن آند أوك" : "Origin & Oak"}
               </span>
               <span className={`text-[10px] font-mono tracking-widest text-zinc-400 dark:text-zinc-500 mt-0.5 ${lang === "ar" ? "normal-case" : "uppercase"}`}>
@@ -72,7 +72,7 @@ export default function Navbar() {
               title={lang === "en" ? "العربية" : "English"}
             >
               <Languages className="w-4 h-4 text-amber-500" />
-              <span className={lang === "ar" ? "font-[family-name:var(--font-cairo)]" : ""}>
+              <span>
                 {lang === "en" ? "عربي" : "EN"}
               </span>
             </button>

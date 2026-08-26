@@ -117,7 +117,7 @@ export default function CustomDrinkBuilder() {
           <span className={`text-xs font-mono font-semibold text-amber-600 dark:text-amber-400 mb-3 inline-block ${lang === "ar" ? "" : "tracking-widest uppercase"}`}>
             {t("b.kicker")}
           </span>
-          <h2 className={`text-3xl sm:text-5xl font-serif font-bold text-zinc-900 dark:text-zinc-50 ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+          <h2 className="text-3xl sm:text-5xl font-serif font-bold text-zinc-900 dark:text-zinc-50">
             {t("b.title")}
           </h2>
           <p className="mt-3 text-zinc-600 dark:text-zinc-400 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
@@ -134,7 +134,7 @@ export default function CustomDrinkBuilder() {
         >
           {/* 1. Base Drink Type */}
           <div className="mb-8">
-            <h4 className={`text-xs font-mono font-semibold text-zinc-500 dark:text-zinc-400 mb-3 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+            <h4 className={`text-xs font-mono font-semibold text-zinc-500 dark:text-zinc-400 mb-3 ${lang === "ar" ? "normal-case tracking-normal" : "uppercase tracking-wider"}`}>
               {t("b.step1")}
             </h4>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -169,7 +169,7 @@ export default function CustomDrinkBuilder() {
           <div className="space-y-7">
             {/* 2. Size */}
             <div>
-              <h4 className={`text-xs font-mono font-semibold text-zinc-500 dark:text-zinc-400 mb-3 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+              <h4 className={`text-xs font-mono font-semibold text-zinc-500 dark:text-zinc-400 mb-3 ${lang === "ar" ? "normal-case tracking-normal" : "uppercase tracking-wider"}`}>
                 {t("b.step2")}
               </h4>
               <div className="grid grid-cols-3 gap-2.5">
@@ -198,7 +198,7 @@ export default function CustomDrinkBuilder() {
 
             {/* 3. Milk */}
             <div>
-              <h4 className={`text-xs font-mono font-semibold text-zinc-500 dark:text-zinc-400 mb-3 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+              <h4 className={`text-xs font-mono font-semibold text-zinc-500 dark:text-zinc-400 mb-3 ${lang === "ar" ? "normal-case tracking-normal" : "uppercase tracking-wider"}`}>
                 {t("b.step3")}
               </h4>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
@@ -226,7 +226,7 @@ export default function CustomDrinkBuilder() {
 
             {/* 4. Extras */}
             <div>
-              <h4 className={`text-xs font-mono font-semibold text-zinc-500 dark:text-zinc-400 mb-3 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+              <h4 className={`text-xs font-mono font-semibold text-zinc-500 dark:text-zinc-400 mb-3 ${lang === "ar" ? "normal-case tracking-normal" : "uppercase tracking-wider"}`}>
                 {t("b.step4")}
               </h4>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
@@ -256,7 +256,7 @@ export default function CustomDrinkBuilder() {
 
             {/* Sensory Tasting Profile Visualizer */}
             <div className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800">
-              <div className={`flex items-center gap-2 text-xs font-mono font-semibold text-zinc-700 dark:text-zinc-300 mb-3 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+              <div className={`flex items-center gap-2 text-xs font-mono font-semibold text-zinc-700 dark:text-zinc-300 mb-3 ${lang === "ar" ? "normal-case tracking-normal" : "uppercase tracking-wider"}`}>
                 <Sliders className="w-3.5 h-3.5 text-amber-500 rtl:-scale-x-100" />
                 <span>{lang === "ar" ? "تقدير حسي مباشر للنكهة" : "Live Sensory Profile Estimate"}</span>
               </div>
@@ -297,7 +297,7 @@ export default function CustomDrinkBuilder() {
           {/* Bottom Total & Order Button */}
           <div className="mt-8 pt-6 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-              <span className={`text-[11px] font-mono text-zinc-400 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+              <span className={`text-[11px] font-mono text-zinc-400 ${lang === "ar" ? "normal-case tracking-normal" : "uppercase tracking-wider"}`}>
                 {t("b.total")}
               </span>
               <div className="text-3xl font-serif font-bold text-zinc-900 dark:text-white mt-0.5 num" data-ltr>

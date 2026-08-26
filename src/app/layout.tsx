@@ -3,8 +3,7 @@ import {
   Geist,
   Geist_Mono,
   Playfair_Display,
-  Cairo,
-  Amiri,
+  Readex_Pro,
 } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/lib/theme-context";
@@ -29,15 +28,10 @@ const playfairSerif = Playfair_Display({
   subsets: ["latin"],
 });
 
-const cairo = Cairo({
-  variable: "--font-cairo",
+const readexPro = Readex_Pro({
+  variable: "--font-readex-pro",
   subsets: ["arabic", "latin"],
-});
-
-const amiri = Amiri({
-  variable: "--font-amiri",
-  subsets: ["arabic", "latin"],
-  weight: ["400", "700"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -55,7 +49,7 @@ export default function RootLayout({
     <html
       lang="en"
       dir="ltr"
-      className={`${geistSans.variable} ${geistMono.variable} ${playfairSerif.variable} ${cairo.variable} ${amiri.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${playfairSerif.variable} ${readexPro.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col font-sans">

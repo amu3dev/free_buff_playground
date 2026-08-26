@@ -124,7 +124,7 @@ export default function CartDrawer() {
                 <div>
                   <h2
                     id="cart-drawer-heading"
-                    className={`text-base font-serif font-bold text-zinc-900 dark:text-white ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}
+                    className="text-base font-serif font-bold text-zinc-900 dark:text-white"
                   >
                     {checkoutStep === "success"
                       ? t("c.confirmed")
@@ -260,7 +260,7 @@ function CartReviewView({
             <div className="w-16 h-16 rounded-full bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center mb-3">
               <Coffee className="w-7 h-7 text-zinc-400" />
             </div>
-            <p className={`text-zinc-900 dark:text-white text-base font-serif font-bold ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+            <p className="text-zinc-900 dark:text-white text-base font-serif font-bold">
               {t("c.emptyT")}
             </p>
             <p className="text-zinc-500 text-xs mt-1 max-w-xs leading-relaxed">
@@ -287,7 +287,7 @@ function CartReviewView({
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
-                      <h3 className={`font-serif font-bold text-xs sm:text-sm text-zinc-900 dark:text-zinc-100 truncate ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+                      <h3 className="font-serif font-bold text-xs sm:text-sm text-zinc-900 dark:text-zinc-100 truncate">
                         {item.name}
                       </h3>
                       {item.customizations && (
@@ -357,7 +357,7 @@ function CartReviewView({
             {/* 1-Click Pastry Carousel */}
             <div className="pt-2">
               <div className="flex items-center justify-between mb-2">
-                <span className={`text-[11px] font-mono font-semibold text-zinc-500 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+                <span className={`text-[11px] font-mono font-semibold text-zinc-500 ${lang === "ar" ? "normal-case tracking-normal" : "uppercase tracking-wider"}`}>
                   {lang === "ar" ? "أضف من المخبوزات" : "Pair with Fresh Bakery"}
                 </span>
                 <span className="text-[10px] text-amber-600 dark:text-amber-400 font-medium">
@@ -414,7 +414,7 @@ function CartReviewView({
               </div>
             )}
             <div className="flex justify-between items-baseline text-sm font-bold text-zinc-900 dark:text-white pt-2 border-t border-zinc-200 dark:border-zinc-800">
-              <span className={`font-serif ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>{t("c.totalDue")}</span>
+              <span className="font-serif">{t("c.totalDue")}</span>
               <span className="text-base font-serif text-amber-600 dark:text-amber-400 num" data-ltr>
                 ${total.toFixed(2)}
               </span>
@@ -474,7 +474,7 @@ function CheckoutFormView({
     >
       <div className="space-y-4">
         <div>
-          <label className={`block text-[11px] font-mono font-semibold text-zinc-500 mb-1 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+          <label className={`block text-[11px] font-mono font-semibold text-zinc-500 mb-1 ${lang === "ar" ? "normal-case tracking-normal" : "uppercase tracking-wider"}`}>
             {t("c.nameL")}
           </label>
           <input
@@ -488,7 +488,7 @@ function CheckoutFormView({
         </div>
 
         <div>
-          <label className={`block text-[11px] font-mono font-semibold text-zinc-500 mb-1 ${lang === "ar" ? "font-[family-name:var(--font-cairo)] normal-case tracking-normal" : "uppercase tracking-wider"}`}>
+          <label className={`block text-[11px] font-mono font-semibold text-zinc-500 mb-1 ${lang === "ar" ? "normal-case tracking-normal" : "uppercase tracking-wider"}`}>
             {t("c.storeL")}
           </label>
           <select
@@ -569,7 +569,7 @@ function OrderSuccessView({
         <CheckCircle2 className="w-7 h-7" />
       </motion.div>
 
-      <h3 className={`text-xl font-serif font-bold text-zinc-900 dark:text-white ${lang === "ar" ? "font-[family-name:var(--font-amiri)]" : ""}`}>
+      <h3 className="text-xl font-serif font-bold text-zinc-900 dark:text-white">
         {t("c.successT")}
       </h3>
       <p className="text-xs text-zinc-500 mt-1">
